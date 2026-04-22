@@ -1,338 +1,597 @@
-import { Navbar } from "@/components/navbar"
-import { PropertyCard } from "@/components/property-card"
-import { Search, Calendar, Users, Home, ArrowRight, Phone, Mail, Instagram, Facebook, MapPin } from "lucide-react"
-import { PROPERTIES } from "@/lib/properties"
 import Link from "next/link"
+import {
+  ArrowRight,
+  Building2,
+  Calendar,
+  CheckCircle2,
+  Home,
+  Mail,
+  MapPin,
+  Phone,
+  Search,
+  ShieldCheck,
+  Sparkles,
+  Star,
+  Users,
+  Waves,
+  Facebook,
+  Instagram,
+} from "lucide-react"
+
+import { HeroSlideshow } from "@/components/hero-slideshow"
+import { Navbar } from "@/components/navbar"
+import { PageTransition } from "@/components/page-transition"
+import { PropertyCard } from "@/components/property-card"
+import { Reveal } from "@/components/reveal"
+import { SectionRail } from "@/components/section-rail"
+import { PROPERTIES } from "@/lib/properties"
+
+const stats = [
+  { value: "4+", label: "Luxury stays ready to book" },
+  { value: "24/7", label: "Guest assistance and owner follow-up" },
+  { value: "4.9/5", label: "Target hospitality standard" },
+  { value: "100%", label: "Tailored support from search to check-in" },
+]
+
+const signatureHighlights = [
+  "Premium apartments and villas",
+  "Concierge-ready guest experience",
+  "Property management for owners",
+  "Tangier market guidance",
+  "Fast WhatsApp communication",
+]
+
+const services = [
+  {
+    title: "Short Stay Rentals",
+    desc: "Handpicked apartments and seaside homes designed for travelers who want comfort, style, and a smooth arrival.",
+    icon: Building2,
+  },
+  {
+    title: "Owner Concierge",
+    desc: "We can help coordinate listings, guest communication, housekeeping, and operational follow-up for your property.",
+    icon: ShieldCheck,
+  },
+  {
+    title: "Property Management",
+    desc: "A more complete service for owners who want dependable oversight, maintenance coordination, and income continuity.",
+    icon: Home,
+  },
+  {
+    title: "Local Guidance",
+    desc: "Need help choosing the right area in Tangier? We simplify the search with practical, market-aware advice.",
+    icon: MapPin,
+  },
+]
+
+const journey = [
+  {
+    title: "Choose the right property",
+    desc: "Browse homes with clear information, curated visuals, and direct support if you need a recommendation.",
+  },
+  {
+    title: "Confirm your stay or project",
+    desc: "We align on dates, guest needs, or owner objectives so the next step is simple and friction-free.",
+  },
+  {
+    title: "Enjoy full follow-through",
+    desc: "From arrival guidance to owner coordination, the experience stays premium after the first click.",
+  },
+]
 
 export default function LandingPage() {
-  const featuredProperty = PROPERTIES.find(p => p.id === "3") || PROPERTIES[0]
+  const featuredProperty = PROPERTIES.find((property) => property.id === "3") || PROPERTIES[0]
+  const railItems = [
+    { id: "home", label: "Home" },
+    { id: "about", label: "About" },
+    { id: "properties", label: "Properties" },
+    { id: "services", label: "Services" },
+    { id: "contact", label: "Contact" },
+  ]
 
   return (
-    <main className="min-h-screen">
-      <Navbar transparent />
+    <PageTransition>
+      <main className="min-h-screen bg-white text-brand-navy">
+        <SectionRail items={railItems} />
+        <Navbar transparent />
 
-      {/* Hero Section */}
-      <section className="relative h-[90vh] flex items-center justify-center overflow-hidden">
-        <div className="absolute inset-0 z-0">
-          <img
-            src="/modern-villa-dusk-morocco.jpg"
-            alt="Luxury Moroccan Property"
-            className="w-full h-full object-cover brightness-[0.6] scale-105 animate-slow-zoom"
-          />
-        </div>
+      <section id="home" className="section-wash relative flex min-h-screen scroll-mt-32 items-center justify-center overflow-hidden">
+        <HeroSlideshow />
+        <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(135deg,rgba(255,255,255,0.08),transparent_30%,transparent_70%,rgba(223,140,61,0.12))]" />
+        <div className="pointer-events-none absolute -left-24 top-28 h-64 w-64 rounded-full bg-white/10 blur-3xl animate-drift" />
+        <div className="pointer-events-none absolute bottom-24 right-0 h-72 w-72 rounded-full bg-brand-orange/20 blur-3xl animate-float" />
+        <div className="pointer-events-none absolute right-18 top-28 h-8 w-8 rounded-full border border-white/30 animate-orbit-soft" />
 
-        <div className="container relative z-10 px-4 text-center text-white">
-          <span className="inline-block py-1 px-3 rounded-full bg-white/20 backdrop-blur-md text-xs font-bold tracking-widest uppercase mb-6 border border-white/30">
-            Exclusive Rentals
-          </span>
-          <h1 className="text-5xl md:text-8xl font-bold mb-6 tracking-tight font-heading animate-in fade-in slide-in-from-bottom-4 duration-1000">
-            Experience the <span className="text-brand-orange">Extraordinary</span>
-          </h1>
-          <p className="text-lg md:text-2xl mb-12 max-w-2xl mx-auto text-gray-200 font-light leading-relaxed">
-            Discover a curated collection of the most prestigious properties in Morocco.
-          </p>
+        <div className="container relative z-10 px-4 pb-14 pt-28 text-white">
+          <div className="mx-auto max-w-6xl text-center">
+            <Reveal delay={50}>
+              <span className="mb-6 inline-flex items-center gap-2 rounded-full border border-white/25 bg-white/12 px-4 py-2 text-xs font-bold uppercase tracking-[0.35em] backdrop-blur-md">
+                <Sparkles className="h-4 w-4 text-brand-orange" />
+                Premium Stays In Tangier
+              </span>
+            </Reveal>
 
-          {/* Search Bar */}
-          <div className="max-w-5xl mx-auto bg-white rounded-full p-2 pl-6 card-shadow flex flex-col md:flex-row items-center gap-2 transform transition-all hover:scale-[1.01]">
-            <div className="flex-1 flex items-center px-4 py-3 md:py-2 w-full border-b md:border-b-0 md:border-r border-gray-100">
-              <Search className="w-5 h-5 text-gray-400 mr-3" />
-              <div className="text-left w-full">
-                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Location</p>
-                <input
-                  type="text"
-                  placeholder="Where do you want to go?"
-                  className="w-full bg-transparent outline-none text-brand-navy font-semibold placeholder:text-gray-300 placeholder:font-normal"
-                />
+            <Reveal delay={150}>
+              <h1 className="mx-auto mb-6 max-w-5xl text-5xl font-bold tracking-tight text-balance md:text-7xl xl:text-8xl">
+                A more elegant way to <span className="text-brand-orange">book, host, and manage</span> property.
+              </h1>
+            </Reveal>
+
+            <Reveal delay={260}>
+              <p className="mx-auto mb-10 max-w-3xl text-lg font-light leading-relaxed text-white/80 md:text-2xl">
+                ELIF Immobilier brings together refined vacation rentals, attentive property care, and trusted local
+                guidance for clients who expect more than a basic real estate service.
+              </p>
+            </Reveal>
+
+            <Reveal delay={340}>
+              <div className="mx-auto mb-10 flex max-w-5xl flex-col items-center gap-2 rounded-[32px] border border-white/60 bg-white/95 p-2 pl-6 shadow-[0_30px_90px_-35px_rgba(15,23,42,0.75)] backdrop-blur md:flex-row">
+                <div className="flex w-full flex-1 items-center border-b border-gray-100 px-4 py-3 md:border-b-0 md:border-r md:py-2">
+                  <Search className="mr-3 h-5 w-5 text-gray-400" />
+                  <div className="w-full text-left">
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Location</p>
+                    <input
+                      type="text"
+                      placeholder="Tangier, beachfront, city center..."
+                      className="w-full bg-transparent font-semibold text-brand-navy outline-none placeholder:font-normal placeholder:text-gray-300"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex w-full flex-1 items-center border-b border-gray-100 px-4 py-3 md:border-b-0 md:border-r md:py-2">
+                  <Calendar className="mr-3 h-5 w-5 text-gray-400" />
+                  <div className="-ml-1 w-full rounded-lg p-1 text-left transition-colors hover:bg-gray-50/50">
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Date</p>
+                    <p className="font-semibold text-brand-navy">Select your dates</p>
+                  </div>
+                </div>
+
+                <div className="flex w-full flex-1 items-center px-4 py-3 md:py-2">
+                  <Users className="mr-3 h-5 w-5 text-gray-400" />
+                  <div className="-ml-1 w-full rounded-lg p-1 text-left transition-colors hover:bg-gray-50/50">
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-gray-400">Guests</p>
+                    <p className="font-semibold text-brand-navy">Add guests</p>
+                  </div>
+                </div>
+
+                <Link
+                  href="#properties"
+                  className="group flex h-14 w-full items-center justify-center gap-2 rounded-full bg-brand-orange px-8 font-bold text-white shadow-lg shadow-brand-orange/20 transition-all hover:-translate-y-0.5 hover:bg-brand-orange-hover hover:shadow-xl hover:shadow-brand-orange/25 md:w-auto"
+                >
+                  Search
+                  <div className="rounded-full bg-white/20 p-1 transition-colors group-hover:bg-white/30">
+                    <ArrowRight className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-0.5" />
+                  </div>
+                </Link>
               </div>
-            </div>
-            <div className="flex-1 flex items-center px-4 py-3 md:py-2 w-full border-b md:border-b-0 md:border-r border-gray-100">
-              <Calendar className="w-5 h-5 text-gray-400 mr-3" />
-              <div className="text-left w-full cursor-pointer hover:bg-gray-50/50 rounded-lg transition-colors p-1 -ml-1">
-                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Date</p>
-                <p className="text-brand-navy font-semibold">Select Dates</p>
+            </Reveal>
+
+            <Reveal delay={420}>
+              <div className="flex flex-wrap items-center justify-center gap-3">
+                {signatureHighlights.map((item) => (
+                  <span
+                    key={item}
+                    className="rounded-full border border-white/20 bg-black/15 px-4 py-2 text-sm font-medium text-white/85 backdrop-blur-sm"
+                  >
+                    {item}
+                  </span>
+                ))}
               </div>
-            </div>
-            <div className="flex-1 flex items-center px-4 py-3 md:py-2 w-full border-gray-100">
-              <Users className="w-5 h-5 text-gray-400 mr-3" />
-              <div className="text-left w-full cursor-pointer hover:bg-gray-50/50 rounded-lg transition-colors p-1 -ml-1">
-                <p className="text-[10px] text-gray-400 font-bold uppercase tracking-wider">Guests</p>
-                <p className="text-brand-navy font-semibold">Add Guests</p>
-              </div>
-            </div>
-            <button className="w-full md:w-auto bg-brand-orange hover:bg-brand-orange-hover text-white font-bold h-14 px-8 rounded-full transition-all shadow-lg shadow-brand-orange/20 flex items-center justify-center gap-2 group">
-              Search
-              <div className="bg-white/20 rounded-full p-1 group-hover:bg-white/30 transition-colors">
-                <ArrowRight className="w-4 h-4" />
-              </div>
-            </button>
+            </Reveal>
           </div>
         </div>
       </section>
 
-      {/* Featured Property Preview (Design Match) */}
-      <section className="py-24 bg-white">
+      <section className="relative z-20 -mt-12 px-4">
+        <div className="container mx-auto">
+          <div className="grid gap-4 rounded-[2rem] border border-white/70 bg-white p-6 shadow-[0_35px_90px_-45px_rgba(15,23,42,0.45)] md:grid-cols-2 xl:grid-cols-4">
+            {stats.map((stat, index) => (
+              <Reveal key={stat.label} delay={index * 80} className="rounded-[1.5rem] bg-[#faf7f2] p-5">
+                <p className="mb-2 font-heading text-4xl font-bold text-brand-navy">{stat.value}</p>
+                <p className="max-w-[16rem] text-sm leading-6 text-gray-500">{stat.label}</p>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section id="about" className="section-wash scroll-mt-32 overflow-hidden bg-white py-24 md:py-32">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col lg:flex-row gap-16 items-center">
-            <div className="flex-1 space-y-8">
-              <span className="text-brand-orange font-bold tracking-widest uppercase text-sm">Editor's Choice</span>
-              <h2 className="text-4xl md:text-6xl font-bold font-heading text-brand-navy leading-tight">
-                {featuredProperty.title}
-              </h2>
-              <div className="flex items-center text-gray-500 font-medium">
-                <MapPin className="w-5 h-5 mr-2 text-brand-orange" />
-                {featuredProperty.location}
+          <div className="grid items-center gap-16 lg:grid-cols-[1.1fr_0.9fr]">
+            <Reveal className="space-y-8" delay={80}>
+              <div>
+                <span className="mb-3 inline-block text-sm font-bold uppercase tracking-[0.3em] text-brand-orange">
+                  Why ELIF
+                </span>
+                <h2 className="max-w-3xl text-4xl font-bold leading-tight text-brand-navy md:text-6xl">
+                  Inspired by the best hospitality brands, shaped for your own identity.
+                </h2>
               </div>
-              <p className="text-gray-500 text-lg leading-relaxed font-light">
-                {featuredProperty.description.split('.')[0]}. Escape the city in style at our luxury beachfront apartment.
-                Wake up to breathtaking panoramic sea views and relax with the sound of the waves just steps away.
+
+              <p className="max-w-2xl text-lg font-light leading-8 text-gray-500">
+                The reference site is strong because it mixes trust, service clarity, and premium atmosphere. We bring
+                the same strengths here with a cleaner ELIF presentation: more proof, more structure, and more elegant
+                visual rhythm.
               </p>
 
-              <div className="grid grid-cols-2 gap-6 py-6 border-y border-gray-100">
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-orange-50 rounded-lg text-brand-orange"><Users className="w-5 h-5" /></div>
-                  <span className="font-heading font-bold text-brand-navy">{featuredProperty.guests} Guests</span>
+              <div className="grid gap-4 md:grid-cols-2">
+                {[
+                  "A clearer value proposition above the fold",
+                  "Trust-building numbers directly under the hero",
+                  "Service positioning for both guests and owners",
+                  "A smoother premium look through soft motion and layered backgrounds",
+                ].map((item, index) => (
+                  <Reveal
+                    key={item}
+                    delay={140 + index * 70}
+                    className="flex items-start gap-3 rounded-2xl border border-[#f1ebe2] bg-[#fffaf3] p-5"
+                  >
+                    <CheckCircle2 className="mt-0.5 h-5 w-5 shrink-0 text-brand-orange" />
+                    <p className="text-sm font-medium leading-6 text-brand-navy">{item}</p>
+                  </Reveal>
+                ))}
+              </div>
+
+              <div className="flex flex-wrap gap-4">
+                <Link
+                  href="#services"
+                  className="inline-flex items-center rounded-xl bg-brand-orange px-7 py-4 font-bold text-white transition-all hover:-translate-y-0.5 hover:bg-brand-orange-hover"
+                >
+                  Explore Services
+                </Link>
+                <a
+                  href="https://wa.me/212661662984"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center rounded-xl border border-brand-navy/10 px-7 py-4 font-semibold text-brand-navy transition-colors hover:border-brand-orange hover:text-brand-orange"
+                >
+                  Talk on WhatsApp
+                </a>
+              </div>
+            </Reveal>
+
+            <Reveal className="relative" delay={220} variant="right">
+              <div className="absolute -left-8 top-10 h-40 w-40 rounded-full bg-brand-orange/10 blur-3xl" />
+              <div className="grid grid-cols-2 gap-5">
+                <div className="space-y-5 pt-10">
+                  <div className="overflow-hidden rounded-[2rem] card-shadow">
+                    <img
+                      src="/551524439.jpg"
+                      alt="Elegant living room"
+                      className="h-72 w-full object-cover transition-transform duration-[1600ms] hover:scale-105"
+                    />
+                  </div>
+                  <div className="rounded-[2rem] bg-brand-navy p-6 text-white">
+                    <p className="text-sm uppercase tracking-[0.25em] text-white/60">Guest standard</p>
+                    <p className="mt-3 text-3xl font-bold">Hotel feel, local warmth.</p>
+                  </div>
                 </div>
-                <div className="flex items-center gap-3">
-                  <div className="p-2 bg-orange-50 rounded-lg text-brand-orange"><Home className="w-5 h-5" /></div>
-                  <span className="font-heading font-bold text-brand-navy">{featuredProperty.sqm} m²</span>
+
+                <div className="space-y-5">
+                  <div className="rounded-[2rem] border border-[#f1ebe2] bg-[#fffaf3] p-6">
+                    <p className="text-sm uppercase tracking-[0.25em] text-brand-orange">Owner focus</p>
+                    <p className="mt-3 text-2xl font-bold text-brand-navy">Operations, visibility, and guest care.</p>
+                  </div>
+                  <div className="overflow-hidden rounded-[2rem] card-shadow">
+                    <img
+                      src="/modern-villa-dusk-morocco.jpg"
+                      alt="Luxury villa exterior"
+                      className="h-80 w-full object-cover transition-transform duration-[1600ms] hover:scale-105"
+                    />
+                  </div>
+                </div>
+              </div>
+            </Reveal>
+          </div>
+        </div>
+      </section>
+
+      <section id="properties" className="section-wash relative scroll-mt-32 overflow-hidden bg-[#fbf8f3] py-24">
+        <div className="pointer-events-none absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand-orange/40 to-transparent" />
+        <div className="container mx-auto px-4">
+          <Reveal className="mb-16 text-center">
+            <span className="mb-3 inline-block text-sm font-bold uppercase tracking-[0.3em] text-brand-orange">
+              Featured Selection
+            </span>
+            <h2 className="mb-4 text-4xl font-bold text-brand-navy md:text-5xl">Explore Our Collection</h2>
+            <p className="mx-auto max-w-2xl text-lg font-light leading-8 text-gray-500">
+              Discover our handpicked selection of villas and modern apartments available for a refined stay in Morocco.
+            </p>
+          </Reveal>
+
+          <div className="mb-16 grid items-center gap-12 lg:grid-cols-[1fr_1.1fr]">
+            <Reveal className="space-y-8" delay={60}>
+              <div className="inline-flex items-center gap-2 rounded-full border border-brand-orange/15 bg-white px-4 py-2 text-sm font-semibold text-brand-navy">
+                <Star className="h-4 w-4 text-brand-orange" />
+                Editor&apos;s Choice
+              </div>
+
+              <div>
+                <h3 className="text-4xl font-bold leading-tight text-brand-navy md:text-6xl">{featuredProperty.title}</h3>
+                <div className="mt-4 flex items-center font-medium text-gray-500">
+                  <MapPin className="mr-2 h-5 w-5 text-brand-orange" />
+                  {featuredProperty.location}
                 </div>
               </div>
 
-              <div className="flex items-center gap-6 pt-4">
-                <Link href={`/properties/${featuredProperty.id}`}>
-                  <button className="bg-brand-orange hover:bg-brand-orange-hover text-white font-bold px-10 py-4 rounded-xl shadow-lg shadow-orange-200 transition-all hover:-translate-y-1">
-                    View Details
-                  </button>
-                </Link>
-                <span className="text-2xl font-bold text-brand-navy font-heading">{featuredProperty.price} MAD <span className="text-sm text-gray-400 font-sans font-normal">/ night</span></span>
+              <p className="max-w-2xl text-lg font-light leading-8 text-gray-500">
+                {featuredProperty.description.split(".")[0]}. A standout choice for guests who want space, style, and
+                a memorable coastal atmosphere.
+              </p>
+
+              <div className="grid grid-cols-2 gap-4 border-y border-brand-navy/8 py-6 md:grid-cols-4">
+                <div>
+                  <p className="text-sm uppercase tracking-[0.25em] text-gray-400">Guests</p>
+                  <p className="mt-2 text-xl font-bold text-brand-navy">{featuredProperty.guests}</p>
+                </div>
+                <div>
+                  <p className="text-sm uppercase tracking-[0.25em] text-gray-400">Beds</p>
+                  <p className="mt-2 text-xl font-bold text-brand-navy">{featuredProperty.beds}</p>
+                </div>
+                <div>
+                  <p className="text-sm uppercase tracking-[0.25em] text-gray-400">Baths</p>
+                  <p className="mt-2 text-xl font-bold text-brand-navy">{featuredProperty.bath}</p>
+                </div>
+                <div>
+                  <p className="text-sm uppercase tracking-[0.25em] text-gray-400">Area</p>
+                  <p className="mt-2 text-xl font-bold text-brand-navy">{featuredProperty.sqm} m²</p>
+                </div>
               </div>
-            </div>
-            <div className="flex-1 relative">
-              <div className="aspect-[4/3] rounded-3xl overflow-hidden relative card-shadow group">
-                <img src={featuredProperty.images[0]} alt="Featured" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" />
-                <div className="absolute top-6 right-6 bg-white/90 backdrop-blur px-6 py-3 rounded-full font-bold text-brand-navy shadow-sm">
+
+              <div className="flex flex-wrap items-center gap-5">
+                <Link
+                  href={`/properties/${featuredProperty.id}`}
+                  className="inline-flex items-center rounded-xl bg-brand-orange px-8 py-4 font-bold text-white shadow-lg shadow-orange-200 transition-all hover:-translate-y-1 hover:bg-brand-orange-hover"
+                >
+                  View Details
+                </Link>
+                <span className="font-heading text-3xl font-bold text-brand-navy">
+                  {featuredProperty.price} MAD{" "}
+                  <span className="font-sans text-sm font-normal text-gray-400">/ night</span>
+                </span>
+              </div>
+            </Reveal>
+
+            <Reveal className="relative" delay={180} variant="zoom">
+              <div className="group relative aspect-[5/4] overflow-hidden rounded-[2rem] card-shadow">
+                <img
+                  src={featuredProperty.images[0]}
+                  alt={featuredProperty.title}
+                  className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/45 via-transparent to-transparent opacity-80" />
+                <div className="absolute right-6 top-6 rounded-full bg-white/90 px-6 py-3 font-bold text-brand-navy shadow-sm backdrop-blur">
                   Featured
                 </div>
               </div>
 
-              {/* Floating Badge */}
-              <div className="absolute -bottom-10 -left-10 bg-white p-6 rounded-2xl card-shadow hidden md:block animate-bounce-slow">
+              <div className="absolute -bottom-8 left-6 rounded-2xl border border-white/80 bg-white/95 p-5 shadow-[0_25px_70px_-40px_rgba(15,23,42,0.6)] backdrop-blur animate-float">
                 <div className="flex items-center gap-4">
-                  <div className="flex -space-x-4">
-                    <div className="w-12 h-12 rounded-full border-4 border-white bg-gray-200" />
-                    <div className="w-12 h-12 rounded-full border-4 border-white bg-gray-300" />
-                    <div className="w-12 h-12 rounded-full border-4 border-white bg-brand-navy text-white flex items-center justify-center text-xs font-bold">50+</div>
+                  <div className="rounded-2xl bg-[#fff3e5] p-3 text-brand-orange">
+                    <Waves className="h-6 w-6" />
                   </div>
                   <div>
-                    <p className="font-bold text-brand-navy">Happy Guests</p>
-                    <div className="flex text-brand-orange text-xs"><span className="text-black font-bold mr-1">4.9</span> ★★★★★</div>
+                    <p className="font-bold text-brand-navy">Signature atmosphere</p>
+                    <p className="text-sm text-gray-500">Sea view, premium comfort, curated details</p>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Properties Section */}
-      <section id="properties" className="py-24 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-brand-navy mb-4 font-heading">Explore Our Collection</h2>
-            <p className="text-gray-500 max-w-xl mx-auto text-lg font-light">
-              Discover our handpicked selection of luxurious villas and modern apartments available for your ideal stay
-              in Morocco.
-            </p>
+            </Reveal>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {PROPERTIES.map((property) => (
-              <PropertyCard key={property.id} {...property} image={property.images[0]} />
+          <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-4">
+            {PROPERTIES.map((property, index) => (
+              <Reveal key={property.id} delay={index * 90} variant="up">
+                <PropertyCard {...property} image={property.images[0]} />
+              </Reveal>
             ))}
           </div>
-
-          <div className="mt-16 text-center">
-            <button className="inline-flex items-center px-8 py-3 bg-brand-orange text-white font-bold rounded-lg hover:bg-brand-orange-hover transition-colors group">
-              Browse More Properties
-              <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
-            </button>
-          </div>
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-24 bg-white">
+      <section id="services" className="section-wash scroll-mt-32 bg-white py-24">
         <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row items-center gap-16">
-            <div className="flex-1">
-              <span className="text-brand-orange font-bold tracking-widest uppercase text-sm mb-2 block">Our Expertise</span>
-              <h2 className="text-4xl md:text-5xl font-bold text-brand-navy mb-8 font-heading">Comprehensive Real Estate Services</h2>
-              <div className="grid gap-6">
-                {[
-                  {
-                    title: "Buying & Selling",
-                    desc: "Expert guidance for residential and commercial transactions across Morocco.",
-                  },
-                  {
-                    title: "Long-term Rentals",
-                    desc: "Secure and verified long-term housing solutions for expats and locals.",
-                  },
-                  {
-                    title: "Seasonal & Airbnb Management",
-                    desc: "Maximize your property income with our full-service hospitality management.",
-                  },
-                  {
-                    title: "Property Management",
-                    desc: "Complete maintenance, legal, and administrative care for your investments.",
-                  },
-                ].map((service, i) => (
-                  <div key={i} className="flex gap-4 p-6 rounded-2xl bg-white card-shadow border border-gray-50">
-                    <div className="flex-shrink-0 w-12 h-12 bg-orange-50 rounded-xl flex items-center justify-center">
-                      <Home className="text-brand-orange w-6 h-6" />
-                    </div>
-                    <div>
-                      <h4 className="text-xl font-bold text-brand-navy mb-1">{service.title}</h4>
-                      <p className="text-gray-500">{service.desc}</p>
+          <Reveal className="mb-16 max-w-3xl">
+            <span className="mb-3 inline-block text-sm font-bold uppercase tracking-[0.3em] text-brand-orange">
+              Services
+            </span>
+            <h2 className="mb-4 text-4xl font-bold text-brand-navy md:text-5xl">More than listings, a complete premium service.</h2>
+            <p className="text-lg font-light leading-8 text-gray-500">
+              One of the strongest ideas on the reference site is that the company serves several client needs, not just
+              simple bookings. This section brings that same clarity to ELIF.
+            </p>
+          </Reveal>
+
+          <div className="grid gap-6 lg:grid-cols-2">
+            {services.map((service, index) => {
+              const Icon = service.icon
+
+              return (
+                <Reveal key={service.title} delay={index * 80} className="group">
+                  <div className="relative h-full overflow-hidden rounded-[2rem] border border-brand-navy/8 bg-white p-8 card-shadow transition-all duration-500 hover:-translate-y-1.5 hover:border-brand-orange/20 hover:shadow-[0_22px_60px_-35px_rgba(15,23,42,0.45)]">
+                    <div className="absolute right-0 top-0 h-28 w-28 rounded-full bg-brand-orange/8 blur-2xl transition-transform duration-700 group-hover:scale-125" />
+                    <div className="relative flex items-start gap-5">
+                      <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-[#fff3e5] text-brand-orange">
+                        <Icon className="h-7 w-7 transition-transform duration-500 group-hover:scale-110" />
+                      </div>
+                      <div>
+                        <div className="mb-2 text-sm font-bold uppercase tracking-[0.28em] text-brand-orange/80">
+                          0{index + 1}
+                        </div>
+                        <h3 className="mb-3 text-2xl font-bold text-brand-navy">{service.title}</h3>
+                        <p className="max-w-xl leading-7 text-gray-500">{service.desc}</p>
+                      </div>
                     </div>
                   </div>
-                ))}
-              </div>
-            </div>
-            <div className="flex-1 relative">
-              <div className="rounded-3xl overflow-hidden aspect-[4/5] relative">
-                <img
-                  src="/luxury-building-facade.jpg"
-                  alt="Modern Architecture"
-                  className="w-full h-full object-cover"
-                />
-              </div>
-              <div className="absolute -bottom-8 -left-8 bg-brand-navy p-8 rounded-2xl text-white hidden lg:block">
-                <p className="text-3xl font-bold mb-1">10+ Years</p>
-                <p className="text-sm opacity-70">Of Excellence in Morocco</p>
-              </div>
+                </Reveal>
+              )
+            })}
+          </div>
+        </div>
+      </section>
+
+      <section className="relative overflow-hidden bg-brand-navy py-24 text-white">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(223,140,61,0.18),transparent_30%),radial-gradient(circle_at_bottom_right,rgba(255,255,255,0.08),transparent_35%)]" />
+        <div className="container relative z-10 mx-auto px-4">
+          <div className="grid items-center gap-14 lg:grid-cols-[0.9fr_1.1fr]">
+            <Reveal>
+              <span className="mb-3 inline-block text-sm font-bold uppercase tracking-[0.3em] text-brand-orange">
+                How It Works
+              </span>
+              <h2 className="mb-6 text-4xl font-bold md:text-5xl">A simpler journey for guests and owners.</h2>
+              <p className="max-w-xl text-lg font-light leading-8 text-white/75">
+                This new block adds the narrative flow the reference site uses well: service first, then confidence,
+                then action.
+              </p>
+            </Reveal>
+
+            <div className="grid gap-5">
+              {journey.map((step, index) => (
+                <Reveal
+                  key={step.title}
+                  delay={120 + index * 90}
+                  className="rounded-[1.75rem] border border-white/10 bg-white/6 p-6 backdrop-blur-sm"
+                >
+                  <div className="flex items-start gap-5">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/10 font-heading text-xl font-bold text-brand-orange">
+                      {index + 1}
+                    </div>
+                    <div>
+                      <h3 className="mb-2 text-2xl font-bold">{step.title}</h3>
+                      <p className="leading-7 text-white/70">{step.desc}</p>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
             </div>
           </div>
         </div>
       </section>
 
-      {/* CTA Section */}
-      <section className="py-24 bg-brand-navy relative overflow-hidden">
-        <div className="container mx-auto px-4 text-center relative z-10">
-          <h2 className="text-4xl md:text-6xl font-bold text-white mb-8 font-heading">Reserve Your Dream Stay</h2>
-          <p className="text-blue-100 mb-12 text-xl max-w-2xl mx-auto font-light">
-            Found the perfect property? Click the button below to reserve it now through our partner Airbnb and enjoy.
-          </p>
-          <button className="bg-brand-orange hover:bg-brand-orange-hover text-white font-bold px-12 py-4 rounded-xl text-lg transition-transform hover:scale-105">
-            Book Your Stay Now
-          </button>
-        </div>
-        <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-orange rounded-full blur-[120px]" />
+      <section className="section-wash relative overflow-hidden bg-[#fcf7f1] py-24">
+        <div className="pointer-events-none absolute left-10 top-10 h-40 w-40 rounded-full border border-brand-orange/10" />
+        <div className="pointer-events-none absolute right-16 top-24 h-24 w-24 rounded-full bg-brand-orange/8 blur-2xl animate-pulse-soft" />
+        <div className="container relative z-10 mx-auto px-4 text-center">
+          <Reveal>
+            <span className="mb-3 inline-block text-sm font-bold uppercase tracking-[0.3em] text-brand-orange">
+              Reserve Or Entrust
+            </span>
+            <h2 className="mb-8 text-4xl font-bold text-brand-navy md:text-6xl">Reserve your stay or let us elevate your property.</h2>
+          </Reveal>
+          <Reveal delay={120}>
+            <p className="mx-auto mb-12 max-w-2xl text-xl font-light leading-8 text-gray-500">
+              Whether you want to book a refined home in Tangier or discuss management for your own property, ELIF is
+              ready to help with a more polished client experience.
+            </p>
+          </Reveal>
+          <Reveal delay={220}>
+            <div className="flex flex-wrap items-center justify-center gap-4">
+              <a
+                href="https://wa.me/212661662984"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center rounded-xl bg-brand-orange px-10 py-4 text-lg font-bold text-white transition-transform hover:scale-[1.02] hover:bg-brand-orange-hover"
+              >
+                Contact on WhatsApp
+              </a>
+              <Link
+                href="#properties"
+                className="inline-flex items-center gap-2 rounded-xl border border-brand-navy/10 px-10 py-4 text-lg font-semibold text-brand-navy transition-colors hover:border-brand-orange hover:text-brand-orange"
+              >
+                Browse Properties
+                <ArrowRight className="h-5 w-5" />
+              </Link>
+            </div>
+          </Reveal>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer id="contact" className="bg-white border-t border-gray-100 pt-20 pb-10">
+      <footer id="contact" className="section-wash scroll-mt-32 border-t border-gray-100 bg-white pb-10 pt-20">
         <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-16">
+          <div className="mb-16 grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-4">
             <div>
-              <div className="flex items-center mb-6">
-                <img
-                  src="/logo-02.png"
-                  alt="ELIF"
-                  className="w-24 h-24 object-contain"
-                />
+              <div className="mb-6 flex items-center">
+                <img src="/logo-02.png" alt="ELIF" className="h-24 w-24 object-contain" />
               </div>
-              <p className="text-gray-500 leading-relaxed mb-6">
-                Leading real estate agency in Morocco, specializing in luxury seasonal rentals and premium property
-                management.
+              <p className="mb-6 leading-relaxed text-gray-500">
+                ELIF Immobilier helps guests book refined stays in Morocco while offering owners a more premium and
+                structured property service.
               </p>
               <div className="flex space-x-4">
-                <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-brand-navy hover:bg-brand-orange hover:text-white transition-colors cursor-pointer">
-                  <Instagram className="w-5 h-5" />
+                <div className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-gray-50 text-brand-navy transition-colors hover:bg-brand-orange hover:text-white">
+                  <Instagram className="h-5 w-5" />
                 </div>
-                <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-brand-navy hover:bg-brand-orange hover:text-white transition-colors cursor-pointer">
-                  <Facebook className="w-5 h-5" />
+                <div className="flex h-10 w-10 cursor-pointer items-center justify-center rounded-full bg-gray-50 text-brand-navy transition-colors hover:bg-brand-orange hover:text-white">
+                  <Facebook className="h-5 w-5" />
                 </div>
               </div>
             </div>
 
             <div>
-              <h4 className="text-lg font-bold mb-6">Quick Links</h4>
+              <h4 className="mb-6 text-lg font-bold">Quick Links</h4>
               <ul className="space-y-4 text-gray-500">
                 <li>
-                  <a href="#" className="hover:text-brand-orange transition-colors">
+                  <a href="#about" className="transition-colors hover:text-brand-orange">
                     About Us
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-brand-orange transition-colors">
+                  <a href="#properties" className="transition-colors hover:text-brand-orange">
                     Properties
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-brand-orange transition-colors">
+                  <a href="#services" className="transition-colors hover:text-brand-orange">
                     Services
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="hover:text-brand-orange transition-colors">
-                    FAQs
+                  <a href="#contact" className="transition-colors hover:text-brand-orange">
+                    Contact
                   </a>
                 </li>
               </ul>
             </div>
 
             <div>
-              <h4 className="text-lg font-bold mb-6">Legal</h4>
+              <h4 className="mb-6 text-lg font-bold">What We Offer</h4>
               <ul className="space-y-4 text-gray-500">
-                <li>
-                  <a href="#" className="hover:text-brand-orange transition-colors">
-                    Privacy Policy
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-brand-orange transition-colors">
-                    Terms of Service
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="hover:text-brand-orange transition-colors">
-                    Cookie Policy
-                  </a>
-                </li>
+                <li>Luxury rentals</li>
+                <li>Owner concierge</li>
+                <li>Property management</li>
+                <li>Local real estate guidance</li>
               </ul>
             </div>
 
             <div>
-              <h4 className="text-lg font-bold mb-6">Contact Us</h4>
+              <h4 className="mb-6 text-lg font-bold">Contact Us</h4>
               <ul className="space-y-4">
                 <li className="flex items-start text-gray-500">
-                  <MapPin className="w-5 h-5 text-brand-orange mr-3 mt-1" />
-                  <span>
-                    Tanger, Morocco
-                  </span>
+                  <MapPin className="mr-3 mt-1 h-5 w-5 text-brand-orange" />
+                  <span>Tanger, Morocco</span>
                 </li>
                 <li className="flex items-center text-gray-500">
-                  <Phone className="w-5 h-5 text-brand-orange mr-3" />
+                  <Phone className="mr-3 h-5 w-5 text-brand-orange" />
                   <span>+212 6 61 66 29 84</span>
                 </li>
                 <li className="flex items-center text-gray-500">
-                  <Mail className="w-5 h-5 text-brand-orange mr-3" />
+                  <Mail className="mr-3 h-5 w-5 text-brand-orange" />
                   <span>elifimmobilier@gmail.com</span>
                 </li>
               </ul>
             </div>
           </div>
 
-          <div className="pt-8 border-t border-gray-100 flex flex-col md:flex-row justify-between items-center text-sm text-gray-400">
+          <div className="flex flex-col items-center justify-between border-t border-gray-100 pt-8 text-sm text-gray-400 md:flex-row">
             <p>© 2026 ELIF Immobilier. All rights reserved.</p>
-            <div className="flex space-x-6 mt-4 md:mt-0">
-              <p>Designed for Excellence</p>
+            <div className="mt-4 flex items-center gap-2 md:mt-0">
+              <Sparkles className="h-4 w-4 text-brand-orange" />
+              <p>Designed for a more premium client journey</p>
             </div>
           </div>
         </div>
       </footer>
-    </main>
+      </main>
+    </PageTransition>
   )
 }

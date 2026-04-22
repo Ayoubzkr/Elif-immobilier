@@ -1,6 +1,9 @@
-import Link from "next/link"
+"use client"
+
 import Image from "next/image"
-import { Button } from "@/components/ui/button"
+import Link from "next/link"
+import { useState } from "react"
+
 import { cn } from "@/lib/utils"
 
 interface NavbarProps {
@@ -8,32 +11,30 @@ interface NavbarProps {
 }
 
 export function Navbar({ transparent = false }: NavbarProps) {
+  const [isOpen, setIsOpen] = useState(false)
   const textColor = transparent ? "text-white" : "text-brand-navy"
+  const logoSrc = transparent ? "/logo-01.png" : "/logo-02.png"
+  const links = ["Home", "About", "Properties", "Services", "Contact"]
 
   return (
     <nav
       className={cn(
         "z-50 w-full transition-all duration-300",
         transparent
-          ? "absolute top-0 bg-transparent border-none py-6"
-          : "sticky top-0 bg-white/95 backdrop-blur-sm border-b border-gray-100"
+          ? "absolute top-0 border-none bg-transparent py-6"
+          : "sticky top-0 border-b border-gray-100 bg-white/95 backdrop-blur-sm"
       )}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-20">
+        <div className="flex h-20 items-center justify-between">
           <Link href="/" className="flex items-center">
-            <div className="relative w-20 h-20">
-              <Image
-                src="/logo-01.png"
-                alt="ELIF Immobilier Logo"
-                fill
-                className="object-contain"
-              />
+            <div className="relative h-20 w-20">
+              <Image src={logoSrc} alt="ELIF Immobilier Logo" fill className="object-contain" />
             </div>
           </Link>
 
-          <div className="hidden md:flex items-center space-x-8">
-            {["Home", "Properties", "Services", "Contact"].map((item) => (
+          <div className="hidden items-center space-x-8 md:flex">
+            {links.map((item) => (
               <Link
                 key={item}
                 href={item === "Home" ? "/" : `#${item.toLowerCase()}`}
@@ -52,7 +53,11 @@ export function Navbar({ transparent = false }: NavbarProps) {
             </a>
           </div>
 
-          <button className={cn("md:hidden", textColor)}>
+          <button
+            className={cn("md:hidden", textColor)}
+            onClick={() => setIsOpen((current) => !current)}
+            aria-label="Toggle navigation"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
@@ -65,8 +70,33 @@ export function Navbar({ transparent = false }: NavbarProps) {
             </svg>
           </button>
         </div>
+
+        {isOpen ? (
+          <div className="rounded-3xl border border-white/20 bg-white/95 p-5 text-brand-navy shadow-[0_20px_50px_-30px_rgba(15,23,42,0.55)] backdrop-blur md:hidden">
+            <div className="flex flex-col gap-4">
+              {links.map((item) => (
+                <Link
+                  key={item}
+                  href={item === "Home" ? "/" : `#${item.toLowerCase()}`}
+                  className="text-sm font-semibold transition-colors hover:text-brand-orange"
+                  onClick={() => setIsOpen(false)}
+                >
+                  {item}
+                </Link>
+              ))}
+              <a
+                href="https://wa.me/212661662984"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 inline-flex justify-center rounded-xl bg-brand-orange px-6 py-3 text-sm font-semibold text-white transition-colors hover:bg-brand-orange-hover"
+                onClick={() => setIsOpen(false)}
+              >
+                Contact Us
+              </a>
+            </div>
+          </div>
+        ) : null}
       </div>
     </nav>
   )
 }
-
