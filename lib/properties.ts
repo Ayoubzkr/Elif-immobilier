@@ -112,7 +112,7 @@ export const PROPERTIES: Property[] = [
             "/Oued-Alian-Beach/cover.png",
             "/Oued-Alian-Beach/1.jpeg",
             "/luxury-villa-marrakech.jpg",
-            "/modern-villa-dusk-morocco.jpg"
+            "/Property-c08d227f6b33836e9de836a7c256ba38-131428511.jpg"
         ],
         mainFeatures: {
             space: "A massive beachfront villa with multiple terraces, large living areas, and direct access to the sand. Perfect for large groups.",
@@ -159,4 +159,8 @@ export const PROPERTIES: Property[] = [
 
 export function getPropertyById(id: string): Property | undefined {
     return PROPERTIES.find((p) => p.id === id)
+}
+
+export function getDisplayPropertyTitle(title: string): string {
+    return title.replace(/\s+(I|II)$/u, "")
 }

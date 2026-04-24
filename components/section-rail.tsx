@@ -15,7 +15,19 @@ interface SectionRailProps {
 }
 
 export function SectionRail({ items, className }: SectionRailProps) {
-  const [activeId, setActiveId] = useState(items[0]?.id ?? "")
+  const visibleItems = items.filter((item) => item.label.trim().toLowerCase() !== "the company")
+  const [activeId, setActiveId] = useState(visibleItems[0]?.id ?? "")
+
+  useEffect(() => {
+    if (visibleItems.length === 0) {
+      setActiveId("")
+      return
+    }
+
+    setActiveId((current) =>
+      visibleItems.some((item) => item.id === current) ? current : visibleItems[0]?.id ?? ""
+    )
+  }, [visibleItems])
 
   useEffect(() => {
     const visibleSections = new Map<string, number>()
@@ -46,14 +58,18 @@ export function SectionRail({ items, className }: SectionRailProps) {
       }
     )
 
-    const sections = items
+    const sections = visibleItems
       .map((item) => document.getElementById(item.id))
       .filter((section): section is HTMLElement => Boolean(section))
 
     sections.forEach((section) => observer.observe(section))
 
     return () => observer.disconnect()
-  }, [items])
+  }, [visibleItems])
+
+  if (visibleItems.length === 0) {
+    return null
+  }
 
   return (
     <nav
@@ -66,7 +82,7 @@ export function SectionRail({ items, className }: SectionRailProps) {
       <div className="relative pl-8">
         <div className="absolute left-[11px] top-3 bottom-3 w-px bg-[#d9d7d2]" />
         <ul className="space-y-5">
-          {items.map((item) => {
+          {visibleItems.map((item) => {
             const isActive = item.id === activeId
 
             return (

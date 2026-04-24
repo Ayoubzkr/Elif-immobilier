@@ -1,17 +1,18 @@
 "use client"
 
+import type { HTMLAttributes } from "react"
 import { useEffect, useRef, useState } from "react"
 
 import { cn } from "@/lib/utils"
 
-interface RevealProps {
+interface RevealProps extends HTMLAttributes<HTMLDivElement> {
   children: React.ReactNode
   className?: string
   delay?: number
   variant?: "up" | "down" | "left" | "right" | "zoom" | "blur"
 }
 
-export function Reveal({ children, className, delay = 0, variant = "up" }: RevealProps) {
+export function Reveal({ children, className, delay = 0, variant = "up", ...props }: RevealProps) {
   const ref = useRef<HTMLDivElement | null>(null)
   const [isVisible, setIsVisible] = useState(false)
 
@@ -45,6 +46,7 @@ export function Reveal({ children, className, delay = 0, variant = "up" }: Revea
       ref={ref}
       className={cn("reveal", `reveal-${variant}`, isVisible && "is-visible", className)}
       style={{ transitionDelay: `${delay}ms` }}
+      {...props}
     >
       {children}
     </div>

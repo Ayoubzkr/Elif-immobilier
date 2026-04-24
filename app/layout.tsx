@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Geist, Geist_Mono, Playfair_Display, Lato } from "next/font/google"
+import { Geist, Geist_Mono, Cormorant_Garamond, Manrope } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
 
 import { CookieConsent } from "@/components/cookie-consent"
@@ -7,8 +7,12 @@ import "./globals.css"
 
 const _geist = Geist({ subsets: ["latin"] })
 const _geistMono = Geist_Mono({ subsets: ["latin"] })
-const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" })
-const lato = Lato({ subsets: ["latin"], weight: ["400", "700"], variable: "--font-lato" })
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-cormorant",
+})
+const manrope = Manrope({ subsets: ["latin"], variable: "--font-manrope" })
 
 export const metadata: Metadata = {
   title: "ELIF IMMOBILIER - Luxury Real Estate Morocco",
@@ -25,7 +29,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`font-sans antialiased ${playfair.variable} ${lato.variable}`}>
+      <body className={`font-sans antialiased ${cormorant.variable} ${manrope.variable}`}>
         {children}
         <CookieConsent />
         <Analytics />
