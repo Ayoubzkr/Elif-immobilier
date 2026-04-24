@@ -16,6 +16,7 @@ import {
 } from "lucide-react"
 
 import { ImmersiveHeroShell } from "@/components/immersive-hero-shell"
+import { AnimatedStat } from "@/components/animated-stat"
 import { Navbar } from "@/components/navbar"
 import { PageTransition } from "@/components/page-transition"
 import { PropertyCard } from "@/components/property-card"
@@ -25,10 +26,10 @@ import { PROPERTIES } from "@/lib/properties"
 import { getDisplayPropertyTitle } from "@/lib/properties"
 
 const stats = [
-  { value: "4+", label: "Luxury stays ready to book" },
-  { value: "24/7", label: "Guest assistance and owner follow-up" },
-  { value: "4.9/5", label: "Target hospitality standard" },
-  { value: "100%", label: "Tailored support from search to check-in" },
+  { value: 4, suffix: "+", label: "Luxury stays ready to book" },
+  { value: 24, suffix: "/7", label: "Guest assistance and owner follow-up" },
+  { value: 4.9, suffix: "/5", decimals: 1, label: "Target hospitality standard" },
+  { value: 100, suffix: "%", label: "Tailored support from search to check-in" },
 ]
 
 const services = [
@@ -120,7 +121,12 @@ export default function LandingPage() {
             <div className="cinematic-panel grid gap-4 rounded-[2rem] border border-white/70 bg-white p-6 md:grid-cols-2 xl:grid-cols-4">
             {stats.map((stat, index) => (
               <Reveal key={stat.label} delay={index * 30} className="depth-chip rounded-[1.5rem] bg-[#faf7f2] p-5" data-animate>
-                <p className="mb-2 font-heading text-4xl font-bold text-brand-navy">{stat.value}</p>
+                <AnimatedStat
+                  value={stat.value}
+                  suffix={stat.suffix}
+                  decimals={stat.decimals}
+                  className="mb-2 block font-heading text-4xl font-bold text-brand-navy"
+                />
                 <p className="max-w-[16rem] text-sm leading-6 text-gray-500">{stat.label}</p>
               </Reveal>
             ))}
@@ -201,18 +207,24 @@ export default function LandingPage() {
 
             <Reveal className="relative" delay={220} variant="right" data-animate>
               <div className="absolute -left-8 top-10 h-40 w-40 rounded-full bg-brand-orange/10 blur-3xl" />
-              <div className="grid grid-cols-2 gap-5">
+              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
                 {aboutHighlights.map((highlight, index) => (
                   <div
                     key={highlight.src}
-                    className={`space-y-5 ${index % 2 === 0 ? highlight.offsetClassName ?? "" : ""}`}
+                    className={[
+                      "space-y-5",
+                      index % 2 === 0 && highlight.offsetClassName === "pt-10" ? "sm:pt-10" : "",
+                      "mx-auto w-full max-w-[380px] sm:max-w-none",
+                    ]
+                      .filter(Boolean)
+                      .join(" ")}
                     data-animate
                   >
                     <div className="cinematic-panel group relative overflow-hidden rounded-[2rem] card-shadow">
                       <img
                         src={highlight.src}
                         alt={highlight.alt}
-                        className={`${highlight.heightClassName} w-full object-cover transition-transform duration-[1600ms] group-hover:scale-105`}
+                        className={`${highlight.heightClassName} w-full object-cover object-center transition-transform duration-[1600ms] group-hover:scale-105`}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/70 via-brand-navy/10 to-transparent" />
                       <div className="absolute inset-x-0 bottom-0 p-5 text-white">
@@ -424,16 +436,16 @@ export default function LandingPage() {
                 <Reveal
                   key={step.title}
                   delay={120 + index * 90}
-                  className="cinematic-panel rounded-[1.75rem] border border-white/10 bg-white/6 p-6 backdrop-blur-sm"
+                  className="cinematic-panel rounded-[1.5rem] border border-white/10 bg-white/6 p-4 backdrop-blur-sm sm:rounded-[1.75rem] sm:p-6"
                   data-animate
                 >
-                  <div className="flex items-start gap-5">
-                    <div className="depth-chip flex h-12 w-12 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/10 font-heading text-xl font-bold text-brand-orange">
+                  <div className="flex items-start gap-3 sm:gap-5">
+                    <div className="depth-chip flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/10 font-heading text-lg font-bold text-brand-orange sm:h-12 sm:w-12 sm:text-xl">
                       {index + 1}
                     </div>
                     <div>
-                      <h3 className="mb-2 text-2xl font-bold">{step.title}</h3>
-                      <p className="leading-7 text-white/70">{step.desc}</p>
+                      <h3 className="mb-1.5 text-xl font-bold sm:mb-2 sm:text-2xl">{step.title}</h3>
+                      <p className="text-sm leading-6 text-white/70 sm:text-base sm:leading-7">{step.desc}</p>
                     </div>
                   </div>
                 </Reveal>

@@ -328,7 +328,7 @@ export function ImmersiveHero() {
       id="home"
       className="relative h-[280vh] scroll-mt-24 bg-[#07111d] text-white md:h-[360vh]"
     >
-      <div className="sticky top-0 h-screen overflow-hidden">
+      <div className="sticky top-0 h-screen overflow-y-auto overflow-x-hidden md:overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(223,140,61,0.22),transparent_22%),radial-gradient(circle_at_80%_20%,rgba(115,149,182,0.18),transparent_24%),linear-gradient(180deg,#07111d_0%,#0b1725_52%,#07111d_100%)]" />
 
         <div className="absolute inset-0">
@@ -352,35 +352,35 @@ export function ImmersiveHero() {
           </Canvas>
         </div>
 
-        <div className="relative z-10 flex h-full">
-          <div className="container mx-auto grid h-full grid-cols-1 px-4 pb-3 pt-18 lg:grid-cols-[minmax(0,0.95fr)_minmax(390px,0.8fr)] lg:items-center lg:gap-8 lg:px-6">
-            <div className="pointer-events-none flex max-w-xl flex-col justify-center lg:mx-auto lg:text-center">
-              <div className="mb-6 inline-flex w-fit items-center gap-3 rounded-full border border-white/15 bg-white/8 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.32em] text-white/70 backdrop-blur">
+        <div className="relative z-10 flex min-h-full md:h-full">
+          <div className="container mx-auto grid min-h-full grid-cols-1 px-4 pb-8 pt-24 md:h-full md:pb-4 lg:grid-cols-[minmax(0,0.95fr)_minmax(390px,0.8fr)] lg:items-center lg:gap-8 lg:px-6">
+            <div className="pointer-events-none flex max-w-xl flex-col justify-center pt-6 lg:mx-auto lg:pt-0 lg:text-center">
+              <div className="mb-4 inline-flex w-fit items-center gap-3 rounded-full border border-white/15 bg-white/8 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.32em] text-white/70 backdrop-blur">
                 Elif Immobilier
               </div>
-              <h1 className="max-w-2xl font-heading text-3xl font-semibold leading-[1] text-white md:text-[3.25rem] xl:text-[3.9rem]">
+              <h1 className="max-w-2xl font-heading text-[2rem] font-semibold leading-[0.98] text-white md:text-[3.25rem] xl:text-[3.9rem]">
                 L&apos;excellence de la conciergerie immobiliere, au service de votre bien.
               </h1>
-              <p className="mt-3 max-w-lg text-[13px] leading-5 text-white/72 md:text-[14px]">
+              <p className="mt-3 max-w-lg text-[12px] leading-5 text-white/72 md:text-[14px]">
                 Nous creons des experiences uniques pour vos locataires tout en optimisant la rentabilite de votre
                 propriete.
               </p>
               <div className="mt-5 h-px w-32 bg-gradient-to-r from-brand-orange via-white/40 to-transparent" />
             </div>
 
-            <div className="mt-auto flex items-end justify-center pb-1 lg:pb-2">
-              <div className="w-full max-w-[23rem] space-y-2">
+            <div className="mt-8 flex items-end justify-center pb-6 md:mt-auto md:pb-2 lg:pb-2">
+              <div className="w-full max-w-[21rem] space-y-2 sm:max-w-[23rem]">
                 {serviceMessages.map((message, index) => (
                   <div
                     key={message}
                     ref={(node) => {
                       stageRefs.current[index] = node
                     }}
-                    className="rounded-[1.25rem] border border-white/12 bg-white/8 p-3 backdrop-blur-xl md:p-3.5"
+                    className="rounded-[1.1rem] border border-white/12 bg-white/8 p-2.5 backdrop-blur-xl md:rounded-[1.25rem] md:p-3.5"
                   >
-                    <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-brand-orange">Etape 0{index + 1}</p>
-                    <p className="mt-1.5 text-[1rem] font-semibold text-white md:text-[1.12rem]">{message}</p>
-                    <p className="mt-1 text-[11px] leading-4.5 text-white/65 md:text-[12px]">
+                    <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-brand-orange">Etape 0{index + 1}</p>
+                    <p className="mt-1 text-[0.95rem] font-semibold text-white md:mt-1.5 md:text-[1.12rem]">{message}</p>
+                    <p className="mt-1 text-[10px] leading-4 text-white/65 md:text-[12px]">
                       {index === 0
                         ? "Optimisation, reservations et communication client."
                         : index === 1
@@ -392,11 +392,11 @@ export function ImmersiveHero() {
 
                 <div
                   ref={ctaRef}
-                  className="rounded-[1.45rem] border border-brand-orange/30 bg-brand-orange/14 p-4 backdrop-blur-xl md:p-5"
+                  className="rounded-[1.25rem] border border-brand-orange/30 bg-brand-orange/14 p-3.5 backdrop-blur-xl md:rounded-[1.45rem] md:p-5"
                 >
-                  <p className="text-[11px] font-semibold uppercase tracking-[0.32em] text-white/70">Final</p>
-                  <h2 className="mt-2.5 font-heading text-[1.9rem] font-semibold text-white md:text-[2.1rem]">Confiez-nous votre bien</h2>
-                  <p className="mt-2.5 text-[13px] leading-5 text-white/72 md:text-[14px]">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-white/70">Final</p>
+                  <h2 className="mt-2 font-heading text-[1.55rem] font-semibold leading-tight text-white md:mt-2.5 md:text-[2.1rem]">Confiez-nous votre bien</h2>
+                  <p className="mt-2 text-[12px] leading-5 text-white/72 md:mt-2.5 md:text-[14px]">
                     Maximisez vos revenus sans contraintes. On s&apos;occupe de tout, de A a Z.
                   </p>
                   <div className="mt-3 flex flex-wrap gap-2">
@@ -404,13 +404,13 @@ export function ImmersiveHero() {
                       href="https://wa.me/212661662984"
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="pointer-events-auto inline-flex items-center rounded-full bg-brand-orange px-4 py-2 text-[13px] font-semibold text-white transition-transform hover:scale-[1.02] hover:bg-brand-orange-hover"
+                      className="pointer-events-auto inline-flex items-center rounded-full bg-brand-orange px-3.5 py-2 text-[12px] font-semibold text-white transition-transform hover:scale-[1.02] hover:bg-brand-orange-hover md:px-4 md:text-[13px]"
                     >
                       Confiez-nous votre bien
                     </a>
                     <Link
                       href="#services"
-                      className="pointer-events-auto inline-flex items-center rounded-full border border-white/18 px-4 py-2 text-[13px] font-semibold text-white/90 transition-colors hover:border-white/40 hover:text-white"
+                      className="pointer-events-auto inline-flex items-center rounded-full border border-white/18 px-3.5 py-2 text-[12px] font-semibold text-white/90 transition-colors hover:border-white/40 hover:text-white md:px-4 md:text-[13px]"
                     >
                       Decouvrir nos services
                     </Link>

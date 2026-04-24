@@ -43,24 +43,24 @@ export function PropertyBookingCard({ property }: PropertyBookingCardProps) {
 
   return (
     <div className="pro-surface sticky top-28 overflow-hidden rounded-[28px] border border-[#f1e6d9] bg-white shadow-[0_28px_90px_-44px_rgba(15,23,42,0.45)]">
-      <div className="border-b border-[#f4ede3] bg-[linear-gradient(135deg,#fffaf4_0%,#ffffff_55%,#fff2e6_100%)] p-7">
+      <div className="border-b border-[#f4ede3] bg-[linear-gradient(135deg,#fffaf4_0%,#ffffff_55%,#fff2e6_100%)] p-7 sm:p-8">
         <div className="flex items-end gap-2">
-          <span className="text-4xl font-bold tracking-tight text-brand-orange">{property.price} MAD</span>
-          <span className="pb-1 text-sm font-medium text-slate-500">/ night</span>
+          <span className="text-[2.5rem] font-bold tracking-tight text-brand-orange sm:text-[2.85rem]">{property.price} MAD</span>
+          <span className="pb-1 text-base font-medium text-slate-500">/ night</span>
         </div>
-        <p className="mt-3 text-sm leading-6 text-slate-500">
+        <p className="mt-3 text-base leading-7 text-slate-500">
           Choose your stay details here, then continue to Airbnb or contact us directly on WhatsApp.
         </p>
       </div>
 
-      <div className="p-7">
+      <div className="p-7 sm:p-8">
         <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
           <div className="grid grid-cols-2 border-b border-slate-200">
-            <label className="border-r border-slate-200 p-4">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">Check-in</p>
-              <div className="mt-2 flex items-center justify-between text-sm font-medium text-slate-700">
+            <label className="border-r border-slate-200 p-4 text-center sm:text-left">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Check-in</p>
+              <div className="mt-2 flex items-center justify-center gap-2 text-base font-medium text-slate-700 sm:justify-between">
                 <span>{formatDateLabel(checkIn)}</span>
-                <Calendar className="h-4 w-4 text-slate-400" />
+                <Calendar className="h-4.5 w-4.5 text-slate-400" />
               </div>
               <input
                 type="date"
@@ -74,39 +74,39 @@ export function PropertyBookingCard({ property }: PropertyBookingCardProps) {
                     setCheckOut(nextValue)
                   }
                 }}
-                className="mt-3 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-brand-orange focus:bg-white"
+                className="mt-3 h-14 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-center text-base text-slate-700 outline-none transition focus:border-brand-orange focus:bg-white sm:text-left"
               />
             </label>
 
-            <label className="p-4">
-              <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">Check-out</p>
-              <div className="mt-2 flex items-center justify-between text-sm font-medium text-slate-700">
+            <label className="p-4 text-center sm:text-left">
+              <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Check-out</p>
+              <div className="mt-2 flex items-center justify-center gap-2 text-base font-medium text-slate-700 sm:justify-between">
                 <span>{formatDateLabel(checkOut)}</span>
-                <Calendar className="h-4 w-4 text-slate-400" />
+                <Calendar className="h-4.5 w-4.5 text-slate-400" />
               </div>
               <input
                 type="date"
                 min={minCheckOut}
                 value={checkOut}
                 onChange={(event) => setCheckOut(event.target.value)}
-                className="mt-3 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-brand-orange focus:bg-white"
+                className="mt-3 h-14 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-center text-base text-slate-700 outline-none transition focus:border-brand-orange focus:bg-white sm:text-left"
               />
             </label>
           </div>
 
-          <label className="block p-4">
-            <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">Guests</p>
-            <div className="mt-2 flex items-center justify-between text-sm font-medium text-slate-700">
+          <label className="block p-4 text-center sm:text-left">
+            <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Guests</p>
+            <div className="mt-2 flex items-center justify-center gap-2 text-base font-medium text-slate-700 sm:justify-between">
               <span>{guestCount} guests</span>
               <span className="flex items-center gap-1 text-slate-400">
-                <Users className="h-4 w-4" />
-                <ChevronDown className="h-4 w-4" />
+                <Users className="h-4.5 w-4.5" />
+                <ChevronDown className="h-4.5 w-4.5" />
               </span>
             </div>
             <select
               value={guests}
               onChange={(event) => setGuests(event.target.value)}
-              className="mt-3 w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-700 outline-none transition focus:border-brand-orange focus:bg-white"
+              className="mt-3 h-14 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-center text-base text-slate-700 outline-none transition focus:border-brand-orange focus:bg-white sm:text-left"
             >
               {Array.from({ length: Math.max(property.guests + 4, 12) }, (_, index) => index + 1).map((count) => (
                 <option key={count} value={count}>
