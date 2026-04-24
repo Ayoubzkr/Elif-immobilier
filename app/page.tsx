@@ -205,31 +205,36 @@ export default function LandingPage() {
               </div>
             </Reveal>
 
-            <Reveal className="relative" delay={220} variant="right" data-animate>
+            <Reveal className="relative mx-auto w-full flex justify-center">
               <div className="absolute -left-8 top-10 h-40 w-40 rounded-full bg-brand-orange/10 blur-3xl" />
-              <div className="grid grid-cols-1 gap-5 sm:grid-cols-2">
+              <div className="grid w-full max-w-[360px] mx-auto gap-4 grid-cols-2 sm:max-w-none sm:mx-0 sm:gap-6 sm:grid-cols-2">
                 {aboutHighlights.map((highlight, index) => (
                   <div
                     key={highlight.src}
                     className={[
-                      "space-y-5",
+                      "w-[170px] sm:w-[320px]",
                       index % 2 === 0 && highlight.offsetClassName === "pt-10" ? "sm:pt-10" : "",
-                      "mx-auto w-full max-w-[380px] sm:max-w-none",
                     ]
                       .filter(Boolean)
                       .join(" ")}
                     data-animate
                   >
-                    <div className="cinematic-panel group relative overflow-hidden rounded-[2rem] card-shadow">
+                    <div className="cinematic-panel group relative overflow-hidden rounded-[2rem] bg-white card-shadow">
                       <img
                         src={highlight.src}
                         alt={highlight.alt}
-                        className={`${highlight.heightClassName} w-full object-cover object-center transition-transform duration-[1600ms] group-hover:scale-105`}
+                        className={[
+                          "h-44 w-full object-cover object-center transition-transform duration-[1600ms] group-hover:scale-105",
+                          highlight.heightClassName === "h-72" ? "sm:h-72" : "",
+                          highlight.heightClassName === "h-80" ? "sm:h-80" : "",
+                        ]
+                          .filter(Boolean)
+                          .join(" ")}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/70 via-brand-navy/10 to-transparent" />
-                      <div className="absolute inset-x-0 bottom-0 p-5 text-white">
-                        <p className="text-xs font-bold uppercase tracking-[0.28em] text-white/70">{highlight.title}</p>
-                        <p className="mt-2 text-xl font-bold md:text-2xl">{highlight.description}</p>
+                      <div className="absolute inset-x-0 bottom-0 p-3 text-center text-white sm:p-5">
+                        <p className="text-[11px] font-bold uppercase tracking-[0.28em] text-white/70">{highlight.title}</p>
+                        <p className="mt-1 text-sm font-bold leading-tight sm:mt-2 sm:text-lg md:text-xl">{highlight.description}</p>
                       </div>
                     </div>
                   </div>

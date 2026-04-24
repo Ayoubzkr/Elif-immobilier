@@ -35,7 +35,7 @@ const initialSceneState = (): SceneState => ({
   cameraX: 0,
   cameraY: 1.55,
   cameraZ: 6.4,
-  lightIntensity: 0.8,
+  lightIntensity: 1.2,
   warmIntensity: 0.15,
   warmHue: 0.08,
   furnitureProgress: 0,
@@ -182,9 +182,9 @@ function SceneExperience({
     }
 
     if (cameraRef.current) {
-      cameraRef.current.position.x = THREE.MathUtils.damp(cameraRef.current.position.x, target.cameraX, 8, delta)
-      cameraRef.current.position.y = THREE.MathUtils.damp(cameraRef.current.position.y, target.cameraY, 8, delta)
-      cameraRef.current.position.z = THREE.MathUtils.damp(cameraRef.current.position.z, target.cameraZ, 8, delta)
+      cameraRef.current.position.x = THREE.MathUtils.damp(cameraRef.current.position.x, target.cameraX, 5.5, delta)
+      cameraRef.current.position.y = THREE.MathUtils.damp(cameraRef.current.position.y, target.cameraY, 5.5, delta)
+      cameraRef.current.position.z = THREE.MathUtils.damp(cameraRef.current.position.z, target.cameraZ, 5.5, delta)
       cameraRef.current.lookAt(0, -0.1, 0)
       cameraRef.current.updateProjectionMatrix()
     }
@@ -207,13 +207,13 @@ function SceneExperience({
       <color attach="background" args={["#07111d"]} />
       <fog attach="fog" args={["#07111d", 7, 12]} />
 
-      <ambientLight intensity={0.45} color="#f6f3ef" />
+      <ambientLight intensity={0.25} color="#f6f3ef" />
       <hemisphereLight intensity={0.4} groundColor="#7d6c59" color="#f6f7fb" />
       <directionalLight
         ref={keyLightRef}
         castShadow
         position={[4.5, 6, 3.5]}
-        intensity={0.8}
+        intensity={1.2}
         color="#eef3ff"
         shadow-mapSize-width={2048}
         shadow-mapSize-height={2048}
@@ -255,6 +255,72 @@ export function ImmersiveHero() {
     if (!sectionRef.current) return
 
     const context = gsap.context(() => {
+      if (isMobile) {
+        gsap.set(sceneState.current, initialSceneState())
+
+        const mobileTimeline = gsap.timeline({
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: "bottom bottom",
+            scrub: true,
+          },
+        })
+
+        mobileTimeline
+          .to(
+            sceneState.current,
+            {
+              apartmentY: -0.08,
+              apartmentRotationY: THREE.MathUtils.degToRad(6),
+              cameraY: 1.5,
+              cameraZ: 6.05,
+              lightIntensity: 1.1,
+              warmIntensity: 0.45,
+              duration: 1,
+              ease: "none",
+            },
+            0
+          )
+          .to(
+            sceneState.current,
+            {
+              apartmentY: -0.2,
+              apartmentRotationY: THREE.MathUtils.degToRad(10),
+              cameraX: 0.12,
+              cameraY: 1.4,
+              cameraZ: 5.75,
+              lightIntensity: 1.45,
+              warmIntensity: 0.8,
+              warmHue: 0.1,
+              furnitureProgress: 0.55,
+              duration: 1,
+              ease: "none",
+            },
+            1
+          )
+          .to(
+            sceneState.current,
+            {
+              apartmentY: -0.3,
+              apartmentRotationY: THREE.MathUtils.degToRad(13),
+              cameraX: 0.2,
+              cameraY: 1.32,
+              cameraZ: 5.45,
+              lightIntensity: 1.75,
+              warmIntensity: 1.05,
+              warmHue: 0.12,
+              furnitureProgress: 1,
+              duration: 1,
+              ease: "none",
+            },
+            2
+          )
+
+        return
+      }
+
+      gsap.set(".hero-text", { autoAlpha: 0, y: 36 })
       gsap.set(stageRefs.current, { autoAlpha: 0.18, y: 30 })
       gsap.set(ctaRef.current, { autoAlpha: 0, y: 40 })
       gsap.set(stageRefs.current[0], { autoAlpha: 1, y: 0 })
@@ -269,6 +335,7 @@ export function ImmersiveHero() {
       })
 
       timeline
+        .to(".hero-text", { autoAlpha: 1, y: 0, duration: 0.85, ease: "power2.out" }, 0.08)
         .to(
           sceneState.current,
           {
@@ -320,18 +387,103 @@ export function ImmersiveHero() {
     }, sectionRef)
 
     return () => context.revert()
-  }, [])
+  }, [isMobile])
+
+  if (isMobile) {
+    return (
+      <section ref={sectionRef} id="home" className="relative scroll-mt-24 overflow-hidden bg-[#07111d] text-white">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(223,140,61,0.22),transparent_22%),radial-gradient(circle_at_80%_20%,rgba(115,149,182,0.18),transparent_24%),linear-gradient(180deg,#07111d_0%,#0b1725_52%,#07111d_100%)]" />
+        <div className="absolute inset-0 z-0">
+          <div className="absolute inset-0 h-[60vh] sm:h-[70vh]">
+            <Canvas shadows dpr={[1, 1.2]} gl={{ antialias: true, alpha: true }} className="h-full w-full">
+              <Suspense
+                fallback={
+                  <Html center>
+                    <div className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs uppercase tracking-[0.3em] text-white/60 backdrop-blur">
+                      Loading scene
+                    </div>
+                  </Html>
+                }
+              >
+                <SceneExperience sceneState={sceneState} hasGlb={hasGlb} />
+              </Suspense>
+            </Canvas>
+          </div>
+          <div className="pointer-events-none absolute inset-0 h-[60vh] bg-[radial-gradient(circle_at_center,transparent_20%,rgba(7,17,29,0.14)_58%,rgba(7,17,29,0.9)_100%)]" />
+        </div>
+        <div className="relative z-10">
+          <div className="container mx-auto px-4 pb-10 pt-24">
+            <div className="mx-auto max-w-xl">
+            <div className="mb-4 inline-flex w-fit items-center gap-3 rounded-full border border-white/15 bg-white/8 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.32em] text-white/70 backdrop-blur">
+              Elif Immobilier
+            </div>
+            <h1 className="max-w-2xl font-heading text-[2rem] font-semibold leading-[0.98] text-white">
+              L&apos;excellence de la conciergerie immobiliere, au service de votre bien.
+            </h1>
+            <p className="mt-3 max-w-lg text-[12px] leading-5 text-white/72">
+              Nous creons des experiences uniques pour vos locataires tout en optimisant la rentabilite de votre
+              propriete.
+            </p>
+            <div className="mt-5 h-px w-32 bg-gradient-to-r from-brand-orange via-white/40 to-transparent" />
+          </div>
+
+            <div className="h-[40vh]" />
+
+            <div className="mx-auto mt-2 w-full max-w-[21rem] space-y-2">
+              {serviceMessages.map((message, index) => (
+                <div key={message} className="rounded-[1.1rem] border border-white/12 bg-white/8 p-3 backdrop-blur-xl">
+                  <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-brand-orange">Etape 0{index + 1}</p>
+                  <p className="mt-1 text-[0.95rem] font-semibold text-white">{message}</p>
+                  <p className="mt-1 text-[10px] leading-4 text-white/65">
+                    {index === 0
+                      ? "Optimisation, reservations et communication client."
+                      : index === 1
+                        ? "Un standard hotelier a chaque sejour."
+                        : "Des sejours memorables, des avis positifs."}
+                  </p>
+                </div>
+              ))}
+
+              <div className="rounded-[1.25rem] border border-brand-orange/30 bg-brand-orange/14 p-3.5 backdrop-blur-xl">
+                <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-white/70">Final</p>
+                <h2 className="mt-2 font-heading text-[1.55rem] font-semibold leading-tight text-white">Confiez-nous votre bien</h2>
+                <p className="mt-2 text-[12px] leading-5 text-white/72">
+                  Maximisez vos revenus sans contraintes. On s&apos;occupe de tout, de A a Z.
+                </p>
+                <div className="mt-3 flex flex-wrap gap-2">
+                  <a
+                    href="https://wa.me/212661662984"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="pointer-events-auto inline-flex items-center rounded-full bg-brand-orange px-3.5 py-2 text-[12px] font-semibold text-white transition-transform hover:scale-[1.02] hover:bg-brand-orange-hover"
+                  >
+                    Confiez-nous votre bien
+                  </a>
+                  <Link
+                    href="#services"
+                    className="pointer-events-auto inline-flex items-center rounded-full border border-white/18 px-3.5 py-2 text-[12px] font-semibold text-white/90 transition-colors hover:border-white/40 hover:text-white"
+                  >
+                    Decouvrir nos services
+                  </Link>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    )
+  }
 
   return (
     <section
       ref={sectionRef}
       id="home"
-      className="relative h-[280vh] scroll-mt-24 bg-[#07111d] text-white md:h-[360vh]"
+      className="relative h-[300vh] bg-[#07111d] text-white"
     >
-      <div className="sticky top-0 h-screen overflow-y-auto overflow-x-hidden md:overflow-hidden">
+      <div className="sticky top-0 h-screen overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_left,rgba(223,140,61,0.22),transparent_22%),radial-gradient(circle_at_80%_20%,rgba(115,149,182,0.18),transparent_24%),linear-gradient(180deg,#07111d_0%,#0b1725_52%,#07111d_100%)]" />
 
-        <div className="absolute inset-0">
+        <div className="absolute inset-0 z-0">
           <Canvas
             shadows
             dpr={isMobile ? [1, 1.2] : [1, 1.75]}
@@ -352,9 +504,9 @@ export function ImmersiveHero() {
           </Canvas>
         </div>
 
-        <div className="relative z-10 flex min-h-full md:h-full">
+        <div className="relative z-10 flex h-screen items-center">
           <div className="container mx-auto grid min-h-full grid-cols-1 px-4 pb-8 pt-24 md:h-full md:pb-4 lg:grid-cols-[minmax(0,0.95fr)_minmax(390px,0.8fr)] lg:items-center lg:gap-8 lg:px-6">
-            <div className="pointer-events-none flex max-w-xl flex-col justify-center pt-6 lg:mx-auto lg:pt-0 lg:text-center">
+            <div className="hero-text pointer-events-none flex max-w-xl flex-col justify-center pt-6 lg:mx-auto lg:pt-0 lg:text-center">
               <div className="mb-4 inline-flex w-fit items-center gap-3 rounded-full border border-white/15 bg-white/8 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.32em] text-white/70 backdrop-blur">
                 Elif Immobilier
               </div>
