@@ -1,5 +1,6 @@
 "use client"
 
+import { motion } from "framer-motion"
 import { useMemo, useState } from "react"
 import Image from "next/image"
 import { Calendar, ChevronDown, Users } from "lucide-react"
@@ -42,23 +43,29 @@ export function PropertyBookingCard({ property }: PropertyBookingCardProps) {
   const whatsappHref = buildWhatsAppHref(property.whatsappUrl, displayTitle, checkIn, checkOut, guestCount)
 
   return (
-    <div className="pro-surface sticky top-28 overflow-hidden rounded-[28px] border border-[#f1e6d9] bg-white shadow-[0_28px_90px_-44px_rgba(15,23,42,0.45)]">
-      <div className="border-b border-[#f4ede3] bg-[linear-gradient(135deg,#fffaf4_0%,#ffffff_55%,#fff2e6_100%)] p-7 sm:p-8">
+    <motion.div
+      className="sticky top-28 overflow-hidden rounded-[22px] border border-[#efe5da] bg-white shadow-[0_18px_46px_-34px_rgba(15,23,42,0.18)]"
+      initial={{ opacity: 0, y: 16 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, amount: 0.3 }}
+      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <div className="border-b border-[#f3ede5] bg-white p-6 sm:p-7">
         <div className="flex items-end gap-2">
-          <span className="text-[2.5rem] font-bold tracking-tight text-brand-orange sm:text-[2.85rem]">{property.price} MAD</span>
-          <span className="pb-1 text-base font-medium text-slate-500">/ night</span>
+          <span className="text-[2.15rem] font-bold tracking-tight text-slate-900 sm:text-[2.35rem]">{property.price} MAD</span>
+          <span className="pb-1 text-sm font-medium text-slate-500">/ night</span>
         </div>
-        <p className="mt-3 text-base leading-7 text-slate-500">
+        <p className="mt-3 text-sm leading-6 text-slate-500">
           Choose your stay details here, then continue to Airbnb or contact us directly on WhatsApp.
         </p>
       </div>
 
-      <div className="p-7 sm:p-8">
+      <div className="p-6 sm:p-7">
         <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white">
           <div className="grid grid-cols-2 border-b border-slate-200">
-            <label className="border-r border-slate-200 p-4 text-center sm:text-left">
+            <label className="border-r border-slate-200 p-4 text-left">
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Check-in</p>
-              <div className="mt-2 flex items-center justify-center gap-2 text-base font-medium text-slate-700 sm:justify-between">
+              <div className="mt-2 flex items-center justify-between gap-2 text-sm font-medium text-slate-700">
                 <span>{formatDateLabel(checkIn)}</span>
                 <Calendar className="h-4.5 w-4.5 text-slate-400" />
               </div>
@@ -74,13 +81,13 @@ export function PropertyBookingCard({ property }: PropertyBookingCardProps) {
                     setCheckOut(nextValue)
                   }
                 }}
-                className="mt-3 h-14 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-center text-base text-slate-700 outline-none transition focus:border-brand-orange focus:bg-white sm:text-left"
+                className="mt-3 h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-left text-sm text-slate-700 outline-none transition focus:border-brand-orange focus:bg-white"
               />
             </label>
 
-            <label className="p-4 text-center sm:text-left">
+            <label className="p-4 text-left">
               <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Check-out</p>
-              <div className="mt-2 flex items-center justify-center gap-2 text-base font-medium text-slate-700 sm:justify-between">
+              <div className="mt-2 flex items-center justify-between gap-2 text-sm font-medium text-slate-700">
                 <span>{formatDateLabel(checkOut)}</span>
                 <Calendar className="h-4.5 w-4.5 text-slate-400" />
               </div>
@@ -89,14 +96,14 @@ export function PropertyBookingCard({ property }: PropertyBookingCardProps) {
                 min={minCheckOut}
                 value={checkOut}
                 onChange={(event) => setCheckOut(event.target.value)}
-                className="mt-3 h-14 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-center text-base text-slate-700 outline-none transition focus:border-brand-orange focus:bg-white sm:text-left"
+                className="mt-3 h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-left text-sm text-slate-700 outline-none transition focus:border-brand-orange focus:bg-white"
               />
             </label>
           </div>
 
-          <label className="block p-4 text-center sm:text-left">
+          <label className="block p-4 text-left">
             <p className="text-xs font-semibold uppercase tracking-[0.16em] text-slate-400">Guests</p>
-            <div className="mt-2 flex items-center justify-center gap-2 text-base font-medium text-slate-700 sm:justify-between">
+            <div className="mt-2 flex items-center justify-between gap-2 text-sm font-medium text-slate-700">
               <span>{guestCount} guests</span>
               <span className="flex items-center gap-1 text-slate-400">
                 <Users className="h-4.5 w-4.5" />
@@ -106,7 +113,7 @@ export function PropertyBookingCard({ property }: PropertyBookingCardProps) {
             <select
               value={guests}
               onChange={(event) => setGuests(event.target.value)}
-              className="mt-3 h-14 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-3 text-center text-base text-slate-700 outline-none transition focus:border-brand-orange focus:bg-white sm:text-left"
+              className="mt-3 h-11 w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2 text-left text-sm text-slate-700 outline-none transition focus:border-brand-orange focus:bg-white"
             >
               {Array.from({ length: Math.max(property.guests + 4, 12) }, (_, index) => index + 1).map((count) => (
                 <option key={count} value={count}>
@@ -117,23 +124,39 @@ export function PropertyBookingCard({ property }: PropertyBookingCardProps) {
           </label>
         </div>
 
-        <a href={property.airbnbUrl} target="_blank" rel="noopener noreferrer" className="mt-5 block">
-          <span className="shine-button group flex w-full items-center justify-center gap-3 rounded-2xl bg-[linear-gradient(90deg,#f7a72e,#f26522)] px-6 py-4 text-base font-semibold text-white shadow-[0_20px_48px_-26px_rgba(242,101,34,0.6)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_54px_-20px_rgba(242,101,34,0.7)]">
+        <motion.a
+          href={property.airbnbUrl}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-5 block"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.985 }}
+          transition={{ duration: 0.2 }}
+        >
+          <span className="shine-button group flex w-full items-center justify-center gap-3 rounded-xl border border-[#ffd7bf] bg-[#fff7ef] px-5 py-3.5 text-sm font-semibold text-[#d05a18] shadow-[0_12px_30px_-22px_rgba(242,101,34,0.28)] transition-all duration-300 hover:border-[#ffc39c] hover:bg-[#fff2e7]">
             <span className="flex items-center justify-center">
               <Image src="/icons/airbnb_icon.png" alt="Airbnb" width={18} height={18} className="h-[18px] w-[18px] object-contain" />
             </span>
             Reserve on Airbnb
           </span>
-        </a>
+        </motion.a>
 
-        <a href={whatsappHref} target="_blank" rel="noopener noreferrer" className="mt-3 block">
-          <span className="shine-button group flex w-full items-center justify-center gap-3 rounded-2xl border border-[#bfe8cf] bg-[linear-gradient(90deg,#7ce7a3,#25d366)] px-6 py-4 text-base font-semibold text-white shadow-[0_20px_48px_-28px_rgba(37,211,102,0.5)] transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_24px_54px_-24px_rgba(37,211,102,0.6)]">
+        <motion.a
+          href={whatsappHref}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mt-3 block"
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.985 }}
+          transition={{ duration: 0.2 }}
+        >
+          <span className="shine-button group flex w-full items-center justify-center gap-3 rounded-xl border border-[#cfe9da] bg-white px-5 py-3.5 text-sm font-semibold text-[#1c8c53] shadow-[0_12px_30px_-24px_rgba(37,211,102,0.22)] transition-all duration-300 hover:border-[#b5dfc6] hover:bg-[#f6fffa]">
             <span className="flex items-center justify-center">
               <Image src="/icons/whatsapp-icon.png" alt="WhatsApp" width={18} height={18} className="h-[18px] w-[18px] object-contain" />
             </span>
             Chat on WhatsApp
           </span>
-        </a>
+        </motion.a>
 
         <p className="mt-4 text-center text-xs leading-5 text-slate-400">
           Your selected dates and guest count can be shared directly in the WhatsApp message.
@@ -158,6 +181,6 @@ export function PropertyBookingCard({ property }: PropertyBookingCardProps) {
           </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }

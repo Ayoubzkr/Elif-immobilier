@@ -41,10 +41,22 @@ const initialSceneState = (): SceneState => ({
   furnitureProgress: 0,
 })
 
-const serviceMessages = [
-  "Gestion Airbnb complete",
-  "Menage & maintenance premium",
-  "Experience client 5 etoiles",
+const stages = [
+  {
+    title: "Signal-rich launch",
+    subtitle: "Position your apartment like a premium product.",
+    desc: "We orchestrate listing quality, pricing rhythm, and visual presentation so your property lands with clarity and impact.",
+  },
+  {
+    title: "Precision operations",
+    subtitle: "Automate calm, elevate every arrival.",
+    desc: "From guest messaging to housekeeping and maintenance coordination, each operational layer is tuned for speed, control, and polish.",
+  },
+  {
+    title: "Five-star momentum",
+    subtitle: "Turn stays into repeatable revenue.",
+    desc: "We connect hospitality standards, owner visibility, and smarter follow-through to create memorable stays and stronger returns.",
+  },
 ]
 
 function ApartmentShell({ hasGlb }: { hasGlb: boolean }) {
@@ -235,11 +247,14 @@ function SceneExperience({
 
 export function ImmersiveHero() {
   const sectionRef = useRef<HTMLElement | null>(null)
+  const heroCopyRef = useRef<HTMLDivElement | null>(null)
   const stageRefs = useRef<(HTMLDivElement | null)[]>([])
   const ctaRef = useRef<HTMLDivElement | null>(null)
+  const activeStageRef = useRef(0)
   const sceneState = useRef<SceneState>(initialSceneState())
   const [hasGlb, setHasGlb] = useState(false)
   const [isMobile, setIsMobile] = useState(false)
+  const [activeStage, setActiveStage] = useState(0)
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(max-width: 768px)")
@@ -252,9 +267,39 @@ export function ImmersiveHero() {
   }, [])
 
   useEffect(() => {
+    if (!heroCopyRef.current) return
+
+    const animatedItems = heroCopyRef.current.querySelectorAll("[data-hero-copy]")
+    gsap.fromTo(
+      animatedItems,
+      { autoAlpha: 0, y: 26 },
+      {
+        autoAlpha: 1,
+        y: 0,
+        duration: 0.7,
+        ease: "power3.out",
+        stagger: 0.06,
+        overwrite: "auto",
+      }
+    )
+  }, [activeStage])
+
+  useEffect(() => {
+    activeStageRef.current = activeStage
+  }, [activeStage])
+
+  useEffect(() => {
     if (!sectionRef.current) return
 
     const context = gsap.context(() => {
+      const updateStageProgress = (progress: number) => {
+        const nextStage = progress < 0.33 ? 0 : progress < 0.66 ? 1 : 2
+        if (activeStageRef.current !== nextStage) {
+          activeStageRef.current = nextStage
+          setActiveStage(nextStage)
+        }
+      }
+
       if (isMobile) {
         gsap.set(sceneState.current, initialSceneState())
 
@@ -264,6 +309,7 @@ export function ImmersiveHero() {
             start: "top top",
             end: "bottom bottom",
             scrub: true,
+            onUpdate: (self) => updateStageProgress(self.progress),
           },
         })
 
@@ -271,12 +317,13 @@ export function ImmersiveHero() {
           .to(
             sceneState.current,
             {
-              apartmentY: -0.08,
-              apartmentRotationY: THREE.MathUtils.degToRad(6),
-              cameraY: 1.5,
-              cameraZ: 6.05,
-              lightIntensity: 1.1,
-              warmIntensity: 0.45,
+              apartmentY: -0.1,
+              apartmentRotationY: THREE.MathUtils.degToRad(10),
+              cameraX: -0.08,
+              cameraY: 1.52,
+              cameraZ: 5.95,
+              lightIntensity: 1.35,
+              warmIntensity: 0.55,
               duration: 1,
               ease: "none",
             },
@@ -285,14 +332,14 @@ export function ImmersiveHero() {
           .to(
             sceneState.current,
             {
-              apartmentY: -0.2,
-              apartmentRotationY: THREE.MathUtils.degToRad(10),
-              cameraX: 0.12,
-              cameraY: 1.4,
-              cameraZ: 5.75,
-              lightIntensity: 1.45,
-              warmIntensity: 0.8,
-              warmHue: 0.1,
+              apartmentY: -0.24,
+              apartmentRotationY: THREE.MathUtils.degToRad(18),
+              cameraX: 0.18,
+              cameraY: 1.38,
+              cameraZ: 5.55,
+              lightIntensity: 1.8,
+              warmIntensity: 0.95,
+              warmHue: 0.105,
               furnitureProgress: 0.55,
               duration: 1,
               ease: "none",
@@ -302,14 +349,14 @@ export function ImmersiveHero() {
           .to(
             sceneState.current,
             {
-              apartmentY: -0.3,
-              apartmentRotationY: THREE.MathUtils.degToRad(13),
-              cameraX: 0.2,
-              cameraY: 1.32,
-              cameraZ: 5.45,
-              lightIntensity: 1.75,
-              warmIntensity: 1.05,
-              warmHue: 0.12,
+              apartmentY: -0.36,
+              apartmentRotationY: THREE.MathUtils.degToRad(24),
+              cameraX: 0.34,
+              cameraY: 1.25,
+              cameraZ: 5.15,
+              lightIntensity: 2.15,
+              warmIntensity: 1.22,
+              warmHue: 0.13,
               furnitureProgress: 1,
               duration: 1,
               ease: "none",
@@ -331,6 +378,7 @@ export function ImmersiveHero() {
           start: "top top",
           end: "bottom bottom",
           scrub: true,
+          onUpdate: (self) => updateStageProgress(self.progress),
         },
       })
 
@@ -339,9 +387,13 @@ export function ImmersiveHero() {
         .to(
           sceneState.current,
           {
-            apartmentY: -0.08,
-            apartmentRotationY: THREE.MathUtils.degToRad(5),
-            cameraZ: 6,
+            apartmentY: -0.1,
+            apartmentRotationY: THREE.MathUtils.degToRad(11),
+            cameraX: -0.12,
+            cameraY: 1.5,
+            cameraZ: 5.9,
+            lightIntensity: 1.45,
+            warmIntensity: 0.4,
             duration: 1,
             ease: "none",
           },
@@ -353,13 +405,14 @@ export function ImmersiveHero() {
         .to(
           sceneState.current,
           {
-            apartmentY: -0.22,
-            apartmentRotationY: THREE.MathUtils.degToRad(9),
-            lightIntensity: 1.6,
-            warmIntensity: 0.8,
+            apartmentY: -0.26,
+            apartmentRotationY: THREE.MathUtils.degToRad(19),
+            lightIntensity: 1.95,
+            warmIntensity: 0.95,
             warmHue: 0.11,
-            cameraY: 1.42,
-            cameraZ: 5.75,
+            cameraX: 0.08,
+            cameraY: 1.38,
+            cameraZ: 5.5,
             duration: 1,
             ease: "none",
           },
@@ -370,14 +423,14 @@ export function ImmersiveHero() {
         .to(
           sceneState.current,
           {
-            apartmentY: -0.34,
-            apartmentRotationY: THREE.MathUtils.degToRad(13),
+            apartmentY: -0.4,
+            apartmentRotationY: THREE.MathUtils.degToRad(27),
             furnitureProgress: 1,
-            lightIntensity: 1.95,
-            warmIntensity: 1.25,
-            cameraX: 0.18,
-            cameraY: 1.35,
-            cameraZ: 5.45,
+            lightIntensity: 2.35,
+            warmIntensity: 1.35,
+            cameraX: 0.28,
+            cameraY: 1.28,
+            cameraZ: 5.1,
             duration: 1.25,
             ease: "none",
           },
@@ -413,34 +466,50 @@ export function ImmersiveHero() {
         </div>
         <div className="relative z-10">
           <div className="container mx-auto px-4 pb-10 pt-24">
-            <div className="mx-auto max-w-xl">
-            <div className="mb-4 inline-flex w-fit items-center gap-3 rounded-full border border-white/15 bg-white/8 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.32em] text-white/70 backdrop-blur">
-              Elif Immobilier
+            <div ref={heroCopyRef} className="mx-auto max-w-xl hero-copy">
+              <div
+                data-hero-copy
+                className="mb-4 inline-flex w-fit items-center gap-3 rounded-full border border-white/15 bg-white/8 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.32em] text-white/70 backdrop-blur"
+              >
+                Stage 0{activeStage + 1}
+              </div>
+              <p data-hero-copy className="text-[11px] font-semibold uppercase tracking-[0.34em] text-brand-orange">
+                {stages[activeStage].title}
+              </p>
+              <h1 data-hero-copy className="mt-3 max-w-2xl font-heading text-[2rem] font-semibold leading-[0.98] text-white">
+                {stages[activeStage].subtitle}
+              </h1>
+              <p data-hero-copy className="mt-3 max-w-lg text-[12px] leading-5 text-white/72">
+                {stages[activeStage].desc}
+              </p>
+              <div data-hero-copy className="mt-5 h-px w-32 bg-gradient-to-r from-brand-orange via-white/40 to-transparent" />
+              <div data-hero-copy className="mt-5 flex flex-wrap gap-2">
+                <a
+                  href="https://wa.me/212661662984"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="pointer-events-auto inline-flex items-center rounded-full bg-brand-orange px-4 py-2.5 text-[12px] font-semibold text-white transition-transform hover:scale-[1.02] hover:bg-brand-orange-hover"
+                >
+                  Reserve on WhatsApp
+                </a>
+              </div>
             </div>
-            <h1 className="max-w-2xl font-heading text-[2rem] font-semibold leading-[0.98] text-white">
-              L&apos;excellence de la conciergerie immobiliere, au service de votre bien.
-            </h1>
-            <p className="mt-3 max-w-lg text-[12px] leading-5 text-white/72">
-              Nous creons des experiences uniques pour vos locataires tout en optimisant la rentabilite de votre
-              propriete.
-            </p>
-            <div className="mt-5 h-px w-32 bg-gradient-to-r from-brand-orange via-white/40 to-transparent" />
-          </div>
 
             <div className="h-[40vh]" />
 
             <div className="mx-auto mt-2 w-full max-w-[21rem] space-y-2">
-              {serviceMessages.map((message, index) => (
-                <div key={message} className="rounded-[1.1rem] border border-white/12 bg-white/8 p-3 backdrop-blur-xl">
+              {stages.map((stage, index) => (
+                <div
+                  key={stage.title}
+                  className={`rounded-[1.1rem] border p-3 backdrop-blur-xl transition-all duration-500 ${
+                    activeStage === index
+                      ? "border-brand-orange/45 bg-white/14 shadow-[0_0_0_1px_rgba(223,140,61,0.18)]"
+                      : "border-white/12 bg-white/8"
+                  }`}
+                >
                   <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-brand-orange">Etape 0{index + 1}</p>
-                  <p className="mt-1 text-[0.95rem] font-semibold text-white">{message}</p>
-                  <p className="mt-1 text-[10px] leading-4 text-white/65">
-                    {index === 0
-                      ? "Optimisation, reservations et communication client."
-                      : index === 1
-                        ? "Un standard hotelier a chaque sejour."
-                        : "Des sejours memorables, des avis positifs."}
-                  </p>
+                  <p className="mt-1 text-[0.95rem] font-semibold text-white">{stage.title}</p>
+                  <p className="mt-1 text-[10px] leading-4 text-white/65">{stage.desc}</p>
                 </div>
               ))}
 
@@ -506,39 +575,52 @@ export function ImmersiveHero() {
 
         <div className="relative z-10 flex h-screen items-center">
           <div className="container mx-auto grid min-h-full grid-cols-1 px-4 pb-8 pt-24 md:h-full md:pb-4 lg:grid-cols-[minmax(0,0.95fr)_minmax(390px,0.8fr)] lg:items-center lg:gap-8 lg:px-6">
-            <div className="hero-text pointer-events-none flex max-w-xl flex-col justify-center pt-6 lg:mx-auto lg:pt-0 lg:text-center">
-              <div className="mb-4 inline-flex w-fit items-center gap-3 rounded-full border border-white/15 bg-white/8 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.32em] text-white/70 backdrop-blur">
-                Elif Immobilier
+            <div ref={heroCopyRef} className="hero-text hero-copy pointer-events-none flex max-w-xl flex-col justify-center pt-6 lg:mx-auto lg:pt-0 lg:text-center">
+              <div
+                data-hero-copy
+                className="mb-4 inline-flex w-fit items-center gap-3 rounded-full border border-white/15 bg-white/8 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.32em] text-white/70 backdrop-blur"
+              >
+                Stage 0{activeStage + 1}
               </div>
-              <h1 className="max-w-2xl font-heading text-[2rem] font-semibold leading-[0.98] text-white md:text-[3.25rem] xl:text-[3.9rem]">
-                L&apos;excellence de la conciergerie immobiliere, au service de votre bien.
-              </h1>
-              <p className="mt-3 max-w-lg text-[12px] leading-5 text-white/72 md:text-[14px]">
-                Nous creons des experiences uniques pour vos locataires tout en optimisant la rentabilite de votre
-                propriete.
+              <p data-hero-copy className="text-[11px] font-semibold uppercase tracking-[0.34em] text-brand-orange">
+                {stages[activeStage].title}
               </p>
-              <div className="mt-5 h-px w-32 bg-gradient-to-r from-brand-orange via-white/40 to-transparent" />
+              <h1 data-hero-copy className="max-w-2xl font-heading text-[2rem] font-semibold leading-[0.98] text-white md:text-[3.25rem] xl:text-[3.9rem]">
+                {stages[activeStage].subtitle}
+              </h1>
+              <p data-hero-copy className="mt-3 max-w-lg text-[12px] leading-5 text-white/72 md:text-[14px]">
+                {stages[activeStage].desc}
+              </p>
+              <div data-hero-copy className="mt-5 h-px w-32 bg-gradient-to-r from-brand-orange via-white/40 to-transparent" />
+              <div data-hero-copy className="mt-6 flex flex-wrap gap-3 lg:justify-center">
+                <a
+                  href="https://wa.me/212661662984"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="pointer-events-auto inline-flex items-center rounded-full bg-brand-orange px-4 py-2.5 text-[12px] font-semibold text-white transition-transform hover:scale-[1.02] hover:bg-brand-orange-hover md:px-5 md:text-[13px]"
+                >
+                  Reserve on WhatsApp
+                </a>
+              </div>
             </div>
 
             <div className="mt-8 flex items-end justify-center pb-6 md:mt-auto md:pb-2 lg:pb-2">
               <div className="w-full max-w-[21rem] space-y-2 sm:max-w-[23rem]">
-                {serviceMessages.map((message, index) => (
+                {stages.map((stage, index) => (
                   <div
-                    key={message}
+                    key={stage.title}
                     ref={(node) => {
                       stageRefs.current[index] = node
                     }}
-                    className="rounded-[1.1rem] border border-white/12 bg-white/8 p-2.5 backdrop-blur-xl md:rounded-[1.25rem] md:p-3.5"
+                    className={`rounded-[1.1rem] border p-2.5 backdrop-blur-xl transition-all duration-500 md:rounded-[1.25rem] md:p-3.5 ${
+                      activeStage === index
+                        ? "border-brand-orange/45 bg-white/14 shadow-[0_0_0_1px_rgba(223,140,61,0.18)]"
+                        : "border-white/12 bg-white/8"
+                    }`}
                   >
                     <p className="text-[10px] font-semibold uppercase tracking-[0.28em] text-brand-orange">Etape 0{index + 1}</p>
-                    <p className="mt-1 text-[0.95rem] font-semibold text-white md:mt-1.5 md:text-[1.12rem]">{message}</p>
-                    <p className="mt-1 text-[10px] leading-4 text-white/65 md:text-[12px]">
-                      {index === 0
-                        ? "Optimisation, reservations et communication client."
-                        : index === 1
-                          ? "Un standard hotelier a chaque sejour."
-                          : "Des sejours memorables, des avis positifs."}
-                    </p>
+                    <p className="mt-1 text-[0.95rem] font-semibold text-white md:mt-1.5 md:text-[1.12rem]">{stage.title}</p>
+                    <p className="mt-1 text-[10px] leading-4 text-white/65 md:text-[12px]">{stage.desc}</p>
                   </div>
                 ))}
 

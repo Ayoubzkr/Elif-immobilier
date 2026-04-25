@@ -1,4 +1,7 @@
+"use client"
+
 import Image from "next/image"
+import { motion } from "framer-motion"
 import Link from "next/link"
 import { Bed, Users, MapPin } from "lucide-react"
 
@@ -31,21 +34,28 @@ export function PropertyCard({
 }: PropertyProps) {
   const whatsappLink = whatsappUrl || "https://wa.me/212661662984"
   const displayTitle = getDisplayPropertyTitle(title)
+  const imageLayoutId = `property-image-${id}`
   const actionButtonClassName =
-    "group/button shine-button relative flex items-center justify-center overflow-hidden rounded-2xl border px-3 py-3 text-sm font-semibold transition-all duration-300 hover:-translate-y-1 hover:shadow-lg"
+    "group/button shine-button relative flex items-center justify-center overflow-hidden rounded-2xl border px-3 py-3 text-sm font-semibold transition-all duration-300"
 
   return (
-    <div className="group pro-surface relative overflow-hidden rounded-[26px] border border-white/70 bg-white card-shadow">
+    <motion.div
+      className="group relative overflow-hidden rounded-[26px] border border-white/70 bg-white shadow-[0_18px_55px_-38px_rgba(15,23,42,0.22)] transition-shadow duration-300 hover:shadow-[0_28px_70px_-40px_rgba(15,23,42,0.34)]"
+      whileHover={{ y: -8 }}
+      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+    >
       <div className="pointer-events-none absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-brand-orange/45 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
 
       <Link href={`/properties/${id}`} className="block">
         <div className="relative h-64 w-full overflow-hidden">
-          <Image
-            src={image || "/placeholder.svg"}
-            alt={title}
-            fill
-            className="pro-image object-cover"
-          />
+          <motion.div layoutId={imageLayoutId} className="absolute inset-0">
+            <Image
+              src={image || "/placeholder.svg"}
+              alt={title}
+              fill
+              className="pro-image object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+            />
+          </motion.div>
           <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/35 via-transparent to-transparent opacity-70 transition-opacity duration-500 group-hover:opacity-100" />
           <div className="absolute left-4 top-4 rounded-full bg-white/95 px-4 py-1.5 text-xs font-bold text-brand-navy shadow-sm backdrop-blur-sm">
             {price} MAD / night
@@ -116,6 +126,6 @@ export function PropertyCard({
           </a>
         </div>
       </div>
-    </div>
+    </motion.div>
   )
 }

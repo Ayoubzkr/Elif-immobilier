@@ -23,6 +23,23 @@ export function Reveal({ children, className, delay = 0, variant = "up", ...prop
       return
     }
 
+    const revealIfInView = () => {
+      const rect = node.getBoundingClientRect()
+      const viewportHeight = window.innerHeight || document.documentElement.clientHeight
+      const isNearViewport = rect.top < viewportHeight * 0.92 && rect.bottom > viewportHeight * 0.08
+
+      if (isNearViewport) {
+        setIsVisible(true)
+        return true
+      }
+
+      return false
+    }
+
+    if (revealIfInView()) {
+      return
+    }
+
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -31,14 +48,23 @@ export function Reveal({ children, className, delay = 0, variant = "up", ...prop
         }
       },
       {
-        threshold: 0.2,
-        rootMargin: "0px 0px -10% 0px",
+        threshold: 0.08,
+        rootMargin: "0px 0px -4% 0px",
       }
     )
 
     observer.observe(node)
 
-    return () => observer.disconnect()
+    const frame = window.requestAnimationFrame(() => {
+      if (revealIfInView()) {
+        observer.disconnect()
+      }
+    })
+
+    return () => {
+      observer.disconnect()
+      window.cancelAnimationFrame(frame)
+    }
   }, [])
 
   return (

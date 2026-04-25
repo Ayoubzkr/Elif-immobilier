@@ -3,6 +3,7 @@ import { Geist, Geist_Mono, Cormorant_Garamond, Manrope } from "next/font/google
 import { Analytics } from "@vercel/analytics/next"
 
 import { CookieConsent } from "@/components/cookie-consent"
+import { RouteTransitionProvider } from "@/components/route-transition-provider"
 import "./globals.css"
 
 const _geist = Geist({ subsets: ["latin"] })
@@ -30,7 +31,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`font-sans antialiased ${cormorant.variable} ${manrope.variable}`}>
-        {children}
+        <RouteTransitionProvider>{children}</RouteTransitionProvider>
         <CookieConsent />
         <Analytics />
       </body>

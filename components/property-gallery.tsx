@@ -7,6 +7,7 @@ import { X } from "lucide-react"
 import { PropertyShowcase3D } from "@/components/property-showcase-3d"
 
 interface PropertyGalleryProps {
+  propertyId: string
   title: string
   city: string
   price: number
@@ -14,7 +15,7 @@ interface PropertyGalleryProps {
   images: string[]
 }
 
-export function PropertyGallery({ title, city, price, nightsLabel, images }: PropertyGalleryProps) {
+export function PropertyGallery({ propertyId, title, city, price, nightsLabel, images }: PropertyGalleryProps) {
   const galleryImages = images.slice(1, 5)
   const [activeImage, setActiveImage] = useState<string | null>(null)
 
@@ -36,7 +37,7 @@ export function PropertyGallery({ title, city, price, nightsLabel, images }: Pro
       <div id="gallery" className="mt-8 scroll-mt-32 grid gap-5 xl:grid-cols-[minmax(0,1fr)_240px]">
         <div className="relative">
           <div className="relative">
-            <PropertyShowcase3D images={images} />
+            <PropertyShowcase3D propertyId={propertyId} images={images} />
             <button
               type="button"
               onClick={() => setActiveImage(images[0] ?? null)}
@@ -82,7 +83,11 @@ export function PropertyGallery({ title, city, price, nightsLabel, images }: Pro
       {activeImage ? (
         <div
           className="fixed inset-0 z-[160] flex items-center justify-center bg-[rgba(15,23,42,0.82)] px-3 py-6 backdrop-blur-md sm:px-6"
-          onClick={() => setActiveImage(null)}
+          onClick={(e) => {
+            if (e.target === e.currentTarget) {
+              setActiveImage(null)
+            }
+          }}
         >
           <div className="relative flex w-full max-w-7xl items-center justify-center" onClick={(event) => event.stopPropagation()}>
             <button
@@ -93,12 +98,12 @@ export function PropertyGallery({ title, city, price, nightsLabel, images }: Pro
               <X className="h-5 w-5" />
             </button>
 
-            <div className="relative w-full overflow-hidden rounded-[28px] border border-white/15 bg-white/6 p-2 shadow-[0_40px_120px_-48px_rgba(15,23,42,0.7)] sm:rounded-[36px] sm:p-4">
-              <div className="flex min-h-[72vh] items-center justify-center rounded-[24px] bg-[linear-gradient(180deg,rgba(248,244,238,0.98)_0%,rgba(255,255,255,0.94)_100%)] p-3 sm:min-h-[80vh] sm:rounded-[30px] sm:p-6">
+            <div className="relative h-[90vh] w-full overflow-hidden rounded-[28px] border border-white/15 bg-white/6 p-2 shadow-[0_40px_120px_-48px_rgba(15,23,42,0.7)] sm:rounded-[36px] sm:p-4">
+              <div className="flex h-full items-center justify-center rounded-[24px] bg-[linear-gradient(180deg,rgba(248,244,238,0.98)_0%,rgba(255,255,255,0.94)_100%)] p-3 sm:rounded-[30px] sm:p-6">
                 <img
                   src={activeImage}
                   alt={`${title} large view`}
-                  className="block max-h-[66vh] w-auto max-w-full object-contain sm:max-h-[74vh]"
+                  className="block max-h-[85vh] w-auto max-w-full object-contain"
                 />
               </div>
             </div>

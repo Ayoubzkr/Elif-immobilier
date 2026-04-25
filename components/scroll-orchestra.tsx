@@ -161,7 +161,10 @@ export function ScrollOrchestra() {
       })
     })
 
-    return () => context.revert()
+    return () => {
+      context.revert()
+      ScrollTrigger.getAll().forEach((t) => t.kill())
+    }
   }, [])
 
   return null

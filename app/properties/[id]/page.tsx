@@ -107,6 +107,7 @@ export default async function PropertyPage({ params }: PropertyPageProps) {
                   </div>
 
                   <PropertyGallery
+                    propertyId={property.id}
                     title={displayTitle}
                     city={city}
                     price={property.price}

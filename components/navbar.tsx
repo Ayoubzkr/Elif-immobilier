@@ -15,13 +15,10 @@ export function Navbar({ transparent = false }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [isScrolled, setIsScrolled] = useState(false)
   const pathname = usePathname()
-  const textColor = transparent && !isScrolled ? "text-white" : "text-brand-navy"
-  const desktopLinkClass = transparent
-    ? isScrolled
-      ? "border border-white/18 bg-white/10 text-white shadow-[0_10px_30px_-18px_rgba(15,23,42,0.75)] backdrop-blur-md hover:bg-white/18 hover:text-white"
-      : "text-white hover:bg-white/10 hover:text-white"
-    : "text-brand-navy hover:bg-brand-orange/10 hover:text-brand-orange"
-  const logoSrc = transparent && !isScrolled ? "/logo-01.png" : "/logo-02.png"
+  const textColor = "text-white"
+  const desktopLinkClass =
+    "group relative text-sm font-medium text-white/70 transition hover:text-white after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-center after:scale-x-0 after:bg-white after:transition-transform after:duration-300 hover:after:scale-x-100"
+  const logoSrc = "/logo-01.png"
   const isPropertyPage = pathname.startsWith("/properties/")
   const links = [
     { label: "Home", href: "/" },
@@ -49,14 +46,9 @@ export function Navbar({ transparent = false }: NavbarProps) {
     <nav
       className={cn(
         "fixed inset-x-0 top-0 z-[100] w-full transition-all duration-300",
-        transparent
-          ? cn(
-              "py-3",
-              isScrolled
-                ? "border-b border-white/10 bg-[rgba(7,17,29,0.72)] shadow-[0_18px_45px_-32px_rgba(15,23,42,0.45)] backdrop-blur-xl"
-                : "border-none bg-transparent"
-            )
-          : "border-b border-gray-100 bg-white/95 py-3 shadow-[0_18px_45px_-32px_rgba(15,23,42,0.22)] backdrop-blur-xl"
+        isScrolled
+          ? "py-1.5 bg-[#07111d]/80 backdrop-blur-xl shadow-[0_10px_40px_-20px_rgba(0,0,0,0.6)]"
+          : "py-2 backdrop-blur-xl bg-white/5 border-b border-white/10"
       )}
     >
       <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -77,8 +69,7 @@ export function Navbar({ transparent = false }: NavbarProps) {
                 key={item.label}
                 href={item.href}
                 className={cn(
-                  "rounded-full px-3 py-2 text-sm font-semibold transition-all duration-300",
-                  textColor,
+                  "px-0 py-2",
                   desktopLinkClass
                 )}
               >
@@ -89,7 +80,7 @@ export function Navbar({ transparent = false }: NavbarProps) {
               href="https://wa.me/212661662984"
               target="_blank"
               rel="noopener noreferrer"
-              className="rounded-full bg-brand-orange px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-orange-500/20 transition-all duration-300 hover:-translate-y-0.5 hover:bg-brand-orange-hover hover:shadow-xl"
+              className="rounded-full bg-brand-orange px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-orange-500/20 transition-all duration-300 hover:scale-[1.03] hover:bg-brand-orange-hover hover:shadow-xl"
             >
               Contact Us
             </a>
